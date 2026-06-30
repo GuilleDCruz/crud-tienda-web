@@ -1,0 +1,33 @@
+# IntelliJ
+.idea/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# NetBeans
+nbproject/
+
+# Java
+*.class
+target/
+
+# Maven Wrapper logs
+.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
