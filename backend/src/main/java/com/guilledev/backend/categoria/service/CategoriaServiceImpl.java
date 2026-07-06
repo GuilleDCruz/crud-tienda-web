@@ -6,15 +6,18 @@ import org.springframework.stereotype.Service;
 
 import com.guilledev.backend.categoria.dto.CategoriaRequest;
 import com.guilledev.backend.categoria.dto.CategoriaResponse;
+import com.guilledev.backend.categoria.mapper.CategoriaMapper;
 import com.guilledev.backend.categoria.repository.CategoriaRepository;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
     private final CategoriaRepository repository;
-
-    public CategoriaServiceImpl(CategoriaRepository repository) {
+    private final CategoriaMapper mapper;    
+    
+    public CategoriaServiceImpl(CategoriaRepository repository, CategoriaMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
