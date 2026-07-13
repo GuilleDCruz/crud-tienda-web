@@ -1,5 +1,6 @@
 package com.guilledev.backend.categoria.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,36 +33,72 @@ public class CategoriaServiceImpl implements CategoriaService {
      */
     @Override
     public CategoriaResponse guardar(CategoriaRequest request) {
-        
         if (repository.existsByNombre(request.getNombre())) {
             throw new RuntimeException("La categoría ya existe");
         }
-
         Categoria categoria = mapper.toEntity(request);
         Categoria categoriaGuardada = repository.save(categoria);
         CategoriaResponse response = mapper.toResponse(categoriaGuardada);
-
         return response;
     }
 
     @Override
     public List<CategoriaResponse> listar() {
-        throw new UnsupportedOperationException("Unimplemented method 'listar'");
+        List<Categoria> categorias = repository.findAll();
+        List<CategoriaResponse> respuestas = new ArrayList<>();
+        for (Categoria categoria : categorias) {
+            respuestas.add(mapper.toResponse(categoria));
+        }
+        return respuestas;
     }
 
     @Override
     public CategoriaResponse buscarPorID(Long id) {
-        throw new UnsupportedOperationException("Unimplemented method 'buscarPorID'");
+        Optional<Categoria> categoriaId = repository.findById(id);
+        if (categoriaId.isEmpty()) {
+            throw new RuntimeException("No existe");
+        }
+        Categoria entidad = categoriaId.get();
+        CategoriaResponse response = mapper.toResponse(entidad);
+        return response;
     }
 
     @Override
     public CategoriaResponse actualizar(Long id, CategoriaRequest request) {
-        throw new UnsupportedOperationException("Unimplemented method 'actualizar'");
+        // 1. Buscar la categoría por su ID
+        Optional<Categoria> categoriaOptional = repository.findById(id);
+        // 2. Si no existe, lanzar excepción
+        if (categoriaOptional.isEmpty()) {
+            throw new RuntimeException("La categoría no existe.");
+        }
+        // 3. Obtener la entidad del Optional
+        Categoria entidad = categoriaOptional.get();
+        // 4. Verificar si el nombre cambió
+        if (!request.getNombre().equals(entidad.getNombre())) {
+            // Buscar si ya existe otra categoría con ese nombre
+            Optional<Categoria> categoriaExistente = repository.findByNombre(request.getNombre());
+            if (categoriaExistente.isPresent()) {
+                throw new RuntimeException("Ya existe una categoría con ese nombre.");
+            }
+        }
+        // 5. Actualizar los datos
+        entidad.setNombre(request.getNombre());
+        entidad.setDescripcion(request.getDescripcion());
+        // 6. Guardar los cambios
+        Categoria categoriaActualizada = repository.save(entidad);
+        // 7. Convertir Entity -> Response
+        return mapper.toResponse(categoriaActualizada);
     }
 
     @Override
     public void eliminar(Long id) {
-        throw new UnsupportedOperationException("Unimplemented method 'eliminar'");
+        Optional<Categoria> categoriaOptional = repository.findById(id);
+        if (categoriaOptional.isEmpty()) {
+            throw new RuntimeException("La categoría no existe.");
+        }
+        Categoria entidad = categoriaOptional.get();
+        entidad.setActivo(false);
+        repository.save(entidad);
     }
 
 }

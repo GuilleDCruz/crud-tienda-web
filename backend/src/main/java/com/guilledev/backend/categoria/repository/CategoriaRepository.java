@@ -9,4 +9,8 @@ import com.guilledev.backend.categoria.entity.Categoria;
 public interface CategoriaRepository
         extends JpaRepository<Categoria, Long> {
     boolean existsByNombre(String nombre);
+
+    boolean existsByNombreAndIdNot(String nombre, Long id);
+
+    Optional<Categoria> findByNombre(String nombre);
 }
