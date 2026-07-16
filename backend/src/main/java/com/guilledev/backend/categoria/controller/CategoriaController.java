@@ -55,7 +55,7 @@ public class CategoriaController {
     }
 
     // Eliminar
-    @DeleteMapping("path/{id}")
+    @DeleteMapping("s/{id}")
     public String eliminar(@PathVariable Long id) {
         categoriaService.eliminar(id);
 

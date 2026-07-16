@@ -11,6 +11,9 @@ import com.guilledev.backend.categoria.dto.CategoriaResponse;
 import com.guilledev.backend.categoria.entity.Categoria;
 import com.guilledev.backend.categoria.mapper.CategoriaMapper;
 import com.guilledev.backend.categoria.repository.CategoriaRepository;
+import com.guilledev.backend.exception.Categoria.CategoriaDuplicadaException;
+import com.guilledev.backend.exception.Categoria.CategoriaExistException;
+import com.guilledev.backend.exception.Categoria.CategoriaNotFoundException;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
@@ -34,7 +37,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public CategoriaResponse guardar(CategoriaRequest request) {
         if (repository.existsByNombre(request.getNombre())) {
-            throw new RuntimeException("La categoría ya existe");
+            throw new CategoriaDuplicadaException(request.getNombre());
         }
         Categoria categoria = mapper.toEntity(request);
         Categoria categoriaGuardada = repository.save(categoria);
@@ -56,7 +59,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     public CategoriaResponse buscarPorID(Long id) {
         Optional<Categoria> categoriaId = repository.findById(id);
         if (categoriaId.isEmpty()) {
-            throw new RuntimeException("No existe");
+            throw new CategoriaNotFoundException(id);
         }
         Categoria entidad = categoriaId.get();
         CategoriaResponse response = mapper.toResponse(entidad);
@@ -69,7 +72,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         Optional<Categoria> categoriaOptional = repository.findById(id);
         // 2. Si no existe, lanzar excepción
         if (categoriaOptional.isEmpty()) {
-            throw new RuntimeException("La categoría no existe.");
+            throw new CategoriaNotFoundException(id);
         }
         // 3. Obtener la entidad del Optional
         Categoria entidad = categoriaOptional.get();
@@ -78,7 +81,7 @@ public class CategoriaServiceImpl implements CategoriaService {
             // Buscar si ya existe otra categoría con ese nombre
             Optional<Categoria> categoriaExistente = repository.findByNombre(request.getNombre());
             if (categoriaExistente.isPresent()) {
-                throw new RuntimeException("Ya existe una categoría con ese nombre.");
+                throw new CategoriaExistException(id);
             }
         }
         // 5. Actualizar los datos
@@ -94,7 +97,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     public void eliminar(Long id) {
         Optional<Categoria> categoriaOptional = repository.findById(id);
         if (categoriaOptional.isEmpty()) {
-            throw new RuntimeException("La categoría no existe.");
+            throw new CategoriaNotFoundException(id);
         }
         Categoria entidad = categoriaOptional.get();
         entidad.setActivo(false);
