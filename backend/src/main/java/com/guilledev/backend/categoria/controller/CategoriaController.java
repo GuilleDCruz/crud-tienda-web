@@ -1,15 +1,16 @@
 package com.guilledev.backend.categoria.controller;
 
 import com.guilledev.backend.categoria.service.CategoriaService;
-import com.guilledev.backend.categoria.service.CategoriaServiceImpl;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guilledev.backend.categoria.dto.CategoriaRequest;
 import com.guilledev.backend.categoria.dto.CategoriaResponse;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -32,13 +33,13 @@ public class CategoriaController {
 
     // Crear
     @PostMapping
-    public CategoriaResponse guardar(@RequestBody CategoriaRequest request) {
+    public CategoriaResponse guardar(@Valid @RequestBody CategoriaRequest request) {
         return categoriaService.guardar(request);
     }
 
     // Actualizar
     @PutMapping("/{id}")
-    public CategoriaResponse actualizar(@PathVariable Long id, @RequestBody CategoriaRequest request) {
+    public CategoriaResponse actualizar(@Valid @PathVariable Long id, @RequestBody CategoriaRequest request) {
         return categoriaService.actualizar(id, request);
     }
 
