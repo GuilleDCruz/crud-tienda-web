@@ -12,7 +12,6 @@ import com.guilledev.backend.categoria.entity.Categoria;
 import com.guilledev.backend.categoria.mapper.CategoriaMapper;
 import com.guilledev.backend.categoria.repository.CategoriaRepository;
 import com.guilledev.backend.exception.Categoria.CategoriaDuplicadaException;
-import com.guilledev.backend.exception.Categoria.CategoriaExistException;
 import com.guilledev.backend.exception.Categoria.CategoriaNotFoundException;
 
 @Service
@@ -81,7 +80,7 @@ public class CategoriaServiceImpl implements CategoriaService {
             // Buscar si ya existe otra categoría con ese nombre
             Optional<Categoria> categoriaExistente = repository.findByNombre(request.getNombre());
             if (categoriaExistente.isPresent()) {
-                throw new CategoriaExistException(id);
+                throw new CategoriaDuplicadaException(request.getNombre());
             }
         }
         // 5. Actualizar los datos
