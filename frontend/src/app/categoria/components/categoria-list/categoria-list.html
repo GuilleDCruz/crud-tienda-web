@@ -1,0 +1,14 @@
+<h1>Categorías</h1>
+
+<p>Total de categorías: {{ categorias().length }}</p>
+
+@for (categoria of categorias(); track categoria.id) {
+
+  <div>
+    <p>ID: {{ categoria.id }}</p>
+    <p>Nombre: {{ categoria.nombre }}</p>
+    <p>Descripción: {{ categoria.descripcion }}</p>
+    <p>Activo: {{ categoria.activo }}</p>
+  </div>
+
+}
