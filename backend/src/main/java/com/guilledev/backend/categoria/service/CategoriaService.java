@@ -17,4 +17,8 @@ public interface CategoriaService {
 
     void eliminar(Long id);
 
+    void activar(Long id);
+
+    CategoriaResponse buscarPorNombre(String nombre);
+
 }

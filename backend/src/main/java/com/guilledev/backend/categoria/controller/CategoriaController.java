@@ -14,7 +14,7 @@ import com.guilledev.backend.categoria.dto.CategoriaRequest;
 import com.guilledev.backend.categoria.dto.CategoriaResponse;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -90,6 +90,29 @@ public class CategoriaController {
         categoriaService.eliminar(id);
 
         return "Categoría con '" + id + "' eliminada correctamente";
+    }
+
+    // Actuivar estado de la categoría
+    @Operation(summary = "Activar una categoría", description = "Activa una categoría existente mediante su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categoría activada correctamente"),
+            @ApiResponse(responseCode = "404", description = "La categoría no existe")
+    })
+    @PutMapping("{id}/activar")
+    public void activar(@PathVariable Long id) {
+        categoriaService.activar(id);
+    }
+
+    // Buscar por nombre
+    @Operation(summary = "Buscar categoría por nombre", description = "Obtiene una categoría específica por su nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categoría encontrada"),
+            @ApiResponse(responseCode = "404", description = "La categoría no existe")
+    })
+    @GetMapping("/buscar")
+    public CategoriaResponse obtenerPorNombre(
+            @RequestParam String nombre) {
+        return categoriaService.buscarPorNombre(nombre);
     }
 
 }

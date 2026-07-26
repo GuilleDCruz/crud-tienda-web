@@ -13,4 +13,6 @@ public interface CategoriaRepository
     boolean existsByNombreAndIdNot(String nombre, Long id);
 
     Optional<Categoria> findByNombre(String nombre);
+
+    Optional<Categoria> findByNombreIgnoreCase(String nombre);
 }

@@ -13,6 +13,7 @@ import com.guilledev.backend.categoria.mapper.CategoriaMapper;
 import com.guilledev.backend.categoria.repository.CategoriaRepository;
 import com.guilledev.backend.exception.Categoria.CategoriaDuplicadaException;
 import com.guilledev.backend.exception.Categoria.CategoriaNotFoundException;
+import com.guilledev.backend.exception.Categoria.CategoriaNotFoundNameException;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
@@ -101,6 +102,28 @@ public class CategoriaServiceImpl implements CategoriaService {
         Categoria entidad = categoriaOptional.get();
         entidad.setActivo(false);
         repository.save(entidad);
+    }
+
+    @Override
+    public void activar(Long id) {
+        Optional<Categoria> categoriaOptional = repository.findById(id);
+        if (categoriaOptional.isEmpty()) {
+            throw new RuntimeException("La categoría no existe.");
+        }
+        Categoria entidad = categoriaOptional.get();
+        entidad.setActivo(true);
+        repository.save(entidad);
+    }
+
+    @Override
+    public CategoriaResponse buscarPorNombre(String nombre) {
+
+        Categoria categoria = repository
+                .findByNombreIgnoreCase(nombre)
+                .orElseThrow(() -> new CategoriaNotFoundNameException(
+                        "La categoría con nombre " + nombre + " no existe."));
+
+        return mapper.toResponse(categoria);
     }
 
 }
