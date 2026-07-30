@@ -103,7 +103,7 @@ public class MarcaServiceImpl implements MarcaService {
     @Override
     public MarcaResponse buscarPorNombre(String nombre) {
         Marca marca = repository.findByNombreIgnoreCase(nombre)
-                .orElseThrow(() -> new MarcaNotFoundNameException("La categoria con nombre" + nombre + " no existe"));
+                .orElseThrow(() -> new MarcaNotFoundNameException("La categoria con nombre " + nombre + " no existe"));
         return mapper.toResponse(marca);
     }
 

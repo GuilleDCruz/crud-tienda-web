@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/marca")
-@Tag(name = "Marca", description = "Operaciones relacoadas con la gestión de marcas")
+@Tag(name = "Marca", description = "Operaciones relacionadas con la gestión de marcas")
 public class MarcaController {
     private final MarcaService marcaService;
 
@@ -75,19 +75,19 @@ public class MarcaController {
         return marcaService.buscarPorID(id);
     }
 
-    // Eliminar
-    @Operation(summary = "Eliminar una marca", description = "Desactiva una marca existente mediante su ID")
+    // Desactivar estado de la marca
+    @Operation(summary = "Desactiva una marca", description = "Desactiva una marca existente mediante su ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Marca eliminada correctamente"),
+            @ApiResponse(responseCode = "200", description = "Marca desactivada correctamente"),
             @ApiResponse(responseCode = "404", description = "La marca no existe")
     })
     @DeleteMapping("{id}")
     public String eliminar(@PathVariable Long id) {
         marcaService.eliminar(id);
-        return "marca con '" + id + "' eliminada correctamente";
+        return "Marca con '" + id + "' desactivado correctamente";
     }
 
-    // Actuivar estado de la marca
+    // Activar estado de la marca
     @Operation(summary = "Activar una marca", description = "Activa una marca existente mediante su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Marca activada correctamente"),
@@ -95,8 +95,9 @@ public class MarcaController {
     })
 
     @PutMapping("{id}/activar")
-    public void activar(@PathVariable Long id) {
+    public String activar(@PathVariable Long id) {
         marcaService.activar(id);
+        return "Marca con '" + id + "'' activado correctamente";
     }
 
     // Buscar por nombre
