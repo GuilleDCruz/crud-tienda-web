@@ -8,8 +8,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.guilledev.backend.exception.Categoria.CategoriaDuplicadaException;
-import com.guilledev.backend.exception.Categoria.CategoriaNotFoundException;
+import com.guilledev.backend.exception.categoria.CategoriaDuplicadaException;
+import com.guilledev.backend.exception.categoria.CategoriaNotFoundException;
+import com.guilledev.backend.exception.marca.MarcaDuplicadaException;
+import com.guilledev.backend.exception.marca.MarcaNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -57,4 +59,30 @@ public class GlobalExceptionHandler {
                                 .status(HttpStatus.CONFLICT)
                                 .body(error);
         }
+
+        @ExceptionHandler(MarcaNotFoundException.class)
+        public ResponseEntity<?> manejarMarcaNoEncontrada(
+                        MarcaNotFoundException ex) {
+                ErrorResponse error = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.NOT_FOUND.value(),
+                                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                                ex.getMessage());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(error);
+        }
+
+        @ExceptionHandler(MarcaDuplicadaException.class)
+        public ResponseEntity<ErrorResponse> marcaDuplicada(
+                        MarcaDuplicadaException ex) {
+                ErrorResponse error = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.CONFLICT.value(),
+                                HttpStatus.CONFLICT.getReasonPhrase(),
+                                ex.getMessage());
+                return ResponseEntity
+                                .status(HttpStatus.CONFLICT)
+                                .body(error);
+        }
+
 }

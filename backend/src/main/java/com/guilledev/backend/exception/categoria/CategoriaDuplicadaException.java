@@ -1,4 +1,4 @@
-package com.guilledev.backend.exception.Categoria;
+package com.guilledev.backend.exception.categoria;
 
 public class CategoriaDuplicadaException extends RuntimeException {
     public CategoriaDuplicadaException(String mensaje) {

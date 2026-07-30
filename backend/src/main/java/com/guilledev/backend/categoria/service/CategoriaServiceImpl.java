@@ -11,9 +11,9 @@ import com.guilledev.backend.categoria.dto.CategoriaResponse;
 import com.guilledev.backend.categoria.entity.Categoria;
 import com.guilledev.backend.categoria.mapper.CategoriaMapper;
 import com.guilledev.backend.categoria.repository.CategoriaRepository;
-import com.guilledev.backend.exception.Categoria.CategoriaDuplicadaException;
-import com.guilledev.backend.exception.Categoria.CategoriaNotFoundException;
-import com.guilledev.backend.exception.Categoria.CategoriaNotFoundNameException;
+import com.guilledev.backend.exception.categoria.CategoriaDuplicadaException;
+import com.guilledev.backend.exception.categoria.CategoriaNotFoundException;
+import com.guilledev.backend.exception.categoria.CategoriaNotFoundNameException;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
