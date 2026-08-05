@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 import com.guilledev.backend.proveedor.dto.ProveedorRequest;
 import com.guilledev.backend.proveedor.dto.ProveedorResponse;
 import com.guilledev.backend.proveedor.service.ProveedorService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,6 +43,8 @@ public class ProveedorController {
 
     @PostMapping
     public ProveedorResponse guardar(@Valid @RequestBody ProveedorRequest request) {
+
+        
         return proveedorService.guardar(request);
     }
 
