@@ -1,18 +1,17 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
-
-import { CategoriaService } from '../../services/categoria';
-import { CategoriaResponse } from '../../models/categoria-response';
+import { MarcaResponse } from '../../models/marca-response';
+import { MarcaService } from '../../services/marca';
 
 @Component({
-  selector: 'app-categoria-confirm',
+  selector: 'app-marca-confirm',
   imports: [],
-  templateUrl: './categoria-confirm.html',
-  styleUrl: './categoria-confirm.scss'
+  templateUrl: './marca-confirm.html',
+  styleUrl: './marca-confirm.scss',
 })
-export class CategoriaConfirm {
+export class MarcaConfirm {
 
   @Input()
-  categoria: CategoriaResponse | null = null;
+  marca: MarcaResponse | null = null;
 
   @Input()
   accion: 'activar' | 'desactivar' = 'desactivar';
@@ -25,15 +24,15 @@ export class CategoriaConfirm {
 
   cargando = signal(false);
   mensajeError = signal('');
-
-  constructor(private categoriaService: CategoriaService) {}
-
+  
+  constructor(private marcaService: MarcaService) { }
+  
   cancelar(): void {
     this.cerrar.emit();
   }
 
   confirmar(): void {
-    if (!this.categoria) {
+    if (!this.marca) {
       return;
     }
     this.mensajeError.set('');
@@ -46,11 +45,11 @@ export class CategoriaConfirm {
   }
 
   private desactivar(): void {
-    if (!this.categoria) {
+    if (!this.marca) {
       return;
     }
-    this.categoriaService
-      .eliminar(this.categoria.id)
+    this.marcaService
+      .eliminar(this.marca.id)
       .subscribe({
         next: () => {
           this.cargando.set(false);
@@ -58,20 +57,19 @@ export class CategoriaConfirm {
           this.cerrar.emit();
         },
         error: (error) => {
-          console.error('Error al desactivar categoría:',error);
+          console.error('Error al desactivar marca:', error);
           this.cargando.set(false);
-          this.mensajeError.set(error.error?.message ??'No fue posible desactivar la categoría.');
+          this.mensajeError.set(error.error?.message ?? 'No fue posible desactivar la marca.');
         }
       });
-
   }
 
   private activar(): void {
-    if (!this.categoria) {
+    if (!this.marca) {
       return;
     }
-    this.categoriaService
-      .activar(this.categoria.id)
+    this.marcaService
+      .activar(this.marca.id)
       .subscribe({
         next: () => {
           this.cargando.set(false);
@@ -79,11 +77,11 @@ export class CategoriaConfirm {
           this.cerrar.emit();
         },
         error: (error) => {
-          console.error('Error al activar categoría:',error);
+          console.error('Error al activar marca:', error);
           this.cargando.set(false);
-          this.mensajeError.set(error.error?.message ??'No fue posible activar la categoría.');
+          this.mensajeError.set(error.error?.message ?? 'No fue posible activar la marca.');
         }
       });
   }
-
+  
 }

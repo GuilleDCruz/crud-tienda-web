@@ -3,9 +3,9 @@
         <div class="modal-header">
             <h2>
                 @if (modo === 'crear') {
-                Agregar categoría
+                Agregar proveedor
                 } @else {
-                Editar categoría
+                Editar proveedor
                 }
             </h2>
             <button type="button" class="btn-close" (click)="cancelar()">
@@ -23,14 +23,14 @@
                 <label for="nombre">
                     Nombre
                 </label>
-                <input id="nombre" type="text" [(ngModel)]="nombre" placeholder="Ingrese el nombre de la categoría">
+                <input id="nombre" type="text" [(ngModel)]="nombre" placeholder="Ingrese el nombre del proveedor">
             </div>
             <div class="form-group">
 
                 <label for="descripcion">
                     Descripción
                 </label>
-                <textarea id="descripcion" [(ngModel)]="descripcion" placeholder="Ingrese la descripción">
+                <textarea id="descripcion" [(ngModel)]="descripcion" placeholder="Ingrese la descripción del proveedor">
         </textarea>
             </div>
         </div>

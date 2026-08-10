@@ -1,0 +1,118 @@
+<div class="categoria-container">
+
+    <!-- Encabezado -->
+    <div class="header">
+        <div>
+            <h1>Proveedores</h1>
+            <p>Administración de proveedores de la tienda</p>
+        </div>
+        <button class="btn btn-primary" (click)="abrirCrear()">
+            + Agregar proveedor
+        </button>
+    </div>
+
+
+    <!-- Barra de búsqueda -->
+    <div class="search-container">
+        <input type="text" [(ngModel)]="nombreBusqueda" placeholder="Buscar proveedor por nombre"
+            (keyup.enter)="buscarProveedor()">
+        <button class="btn btn-primary" (click)="buscarProveedor()">
+            Buscar
+        </button>
+        <button class="btn btn-secondary" (click)="listarProveedores()">
+            Mostrar todos
+        </button>
+    </div>
+
+
+    <!-- Mensaje de carga -->
+    @if (cargando()) {
+    <div class="message">
+        Cargando proveedores...
+    </div>
+    }
+
+
+    <!-- Mensaje de error -->
+    @if (mensajeError()) {
+    <div class="error-message">
+        {{ mensajeError() }}
+    </div>
+    }
+
+
+    <!-- Tabla -->
+    @if (!cargando() && proveedores().length > 0) {
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (proveedor of proveedores(); track proveedor.id) {
+                <tr>
+                    <td>
+                        {{ proveedor.id }}
+                    </td>
+                    <td>
+                        {{ proveedor.nombre }}
+                    </td>
+                    <td>
+                        {{ proveedor.descripcion }}
+                    </td>
+                    <td>
+                        @if (proveedor.activo) {
+                        <span class="status active">
+                            Activa
+                        </span>
+                        } @else {
+                        <span class="status inactive">
+                            Inactiva
+                        </span>
+                        }
+
+                    </td>
+                    <td class="actions">
+                        <button class="btn btn-edit" (click)="editarProveedor(proveedor.id)">
+                            Editar
+                        </button>
+                        @if (proveedor.activo) {
+                        <button class="btn btn-delete" (click)="abrirConfirmacion(proveedor)">
+                            Desactivar
+                        </button>
+                        } @else {
+                        <button class="btn btn-success" (click)="abrirConfirmacion(proveedor)">
+                            Activar
+                        </button>
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+
+    <!-- Sin resultados -->
+    @if (!cargando() && proveedores().length === 0 && !mensajeError()) {
+    <div class="message">
+        No hay proveedores para mostrar.
+    </div>
+    }
+    @if (modoModal() !== null) {
+    <app-proveedor-modal [modo]="modoModal()!" [proveedor]="proveedorSeleccionado()" (cerrar)="cerrarModal()"
+        (proveedorGuardado)="proveedorGuardado()">
+    </app-proveedor-modal>
+    }
+    @if (mostrarConfirmacion()) {
+    <app-proveedor-confirm [proveedor]="proveedorSeleccionado()" [accion]="accionConfirmacion()!"
+        (cerrar)="cerrarConfirmacion()" (accionRealizada)="accionRealizada()">
+    </app-proveedor-confirm>
+    }
+</div>

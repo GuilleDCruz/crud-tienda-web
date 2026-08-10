@@ -3,9 +3,9 @@
         <div class="modal-header">
             <h2>
                 @if (accion === 'desactivar') {
-                Desactivar categoría
+                Desactivar marca
                 } @else {
-                Activar categoría
+                Activar marca
                 }
             </h2>
             <button type="button" class="btn-close" (click)="cancelar()" [disabled]="cargando()">
@@ -16,19 +16,19 @@
         <div class="modal-body">
             @if (accion === 'desactivar') {
             <p>
-                ¿Estás seguro de que deseas desactivar la categoría
-                <strong>{{ categoria?.nombre }}</strong>?
+                ¿Estás seguro de que deseas desactivar la marca
+                <strong>{{ marca?.nombre }}</strong>?
             </p>
             <p class="warning">
-                La categoría dejará de estar activa.
+                La marca dejará de estar activa.
             </p>
             } @else {
             <p>
-                ¿Estás seguro de que deseas activar la categoría
-                <strong>{{ categoria?.nombre }}</strong>?
+                ¿Estás seguro de que deseas activar la marca
+                <strong>{{ marca?.nombre }}</strong>?
             </p>
             <p class="success">
-                La categoría volverá a estar activa.
+                La marca volverá a estar activa.
             </p>
             }
             @if (mensajeError()) {

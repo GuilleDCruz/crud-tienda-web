@@ -1,18 +1,17 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
-
-import { CategoriaService } from '../../services/categoria';
-import { CategoriaResponse } from '../../models/categoria-response';
+import { ProveedorResponse } from '../../models/proveedor-response';
+import { ProveedorService } from '../../services/proveedor';
 
 @Component({
-  selector: 'app-categoria-confirm',
+  selector: 'app-proveedor-confirm',
   imports: [],
-  templateUrl: './categoria-confirm.html',
-  styleUrl: './categoria-confirm.scss'
+  templateUrl: './proveedor-confirm.html',
+  styleUrl: './proveedor-confirm.scss',
 })
-export class CategoriaConfirm {
+export class ProveedorConfirm {
 
   @Input()
-  categoria: CategoriaResponse | null = null;
+  proveedor: ProveedorResponse | null = null;
 
   @Input()
   accion: 'activar' | 'desactivar' = 'desactivar';
@@ -26,14 +25,14 @@ export class CategoriaConfirm {
   cargando = signal(false);
   mensajeError = signal('');
 
-  constructor(private categoriaService: CategoriaService) {}
+  constructor(private proveedorService: ProveedorService) { }
 
   cancelar(): void {
     this.cerrar.emit();
   }
 
   confirmar(): void {
-    if (!this.categoria) {
+    if (!this.proveedor) {
       return;
     }
     this.mensajeError.set('');
@@ -44,13 +43,13 @@ export class CategoriaConfirm {
       this.activar();
     }
   }
-
+  
   private desactivar(): void {
-    if (!this.categoria) {
+    if (!this.proveedor) {
       return;
     }
-    this.categoriaService
-      .eliminar(this.categoria.id)
+    this.proveedorService
+      .eliminar(this.proveedor.id)
       .subscribe({
         next: () => {
           this.cargando.set(false);
@@ -58,20 +57,19 @@ export class CategoriaConfirm {
           this.cerrar.emit();
         },
         error: (error) => {
-          console.error('Error al desactivar categoría:',error);
+          console.error('Error al desactivar proveedor:', error);
           this.cargando.set(false);
-          this.mensajeError.set(error.error?.message ??'No fue posible desactivar la categoría.');
+          this.mensajeError.set(error.error?.message ?? 'No fue posible desactivar el proveedor.');
         }
       });
-
   }
 
   private activar(): void {
-    if (!this.categoria) {
+    if (!this.proveedor) {
       return;
     }
-    this.categoriaService
-      .activar(this.categoria.id)
+    this.proveedorService
+      .activar(this.proveedor.id)
       .subscribe({
         next: () => {
           this.cargando.set(false);
@@ -79,11 +77,10 @@ export class CategoriaConfirm {
           this.cerrar.emit();
         },
         error: (error) => {
-          console.error('Error al activar categoría:',error);
+          console.error('Error al activar proveedor:', error);
           this.cargando.set(false);
-          this.mensajeError.set(error.error?.message ??'No fue posible activar la categoría.');
+          this.mensajeError.set(error.error?.message ?? 'No fue posible activar el proveedor.');
         }
       });
   }
-
 }

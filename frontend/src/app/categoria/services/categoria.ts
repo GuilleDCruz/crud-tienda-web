@@ -25,61 +25,31 @@ export class CategoriaService {
 
     // Buscar categoría por ID
     buscarPorId(id: number): Observable<CategoriaResponse> {
-        return this.http.get<CategoriaResponse>(
-            `${this.apiUrl}/${id}`
-        );
+        return this.http.get<CategoriaResponse>(`${this.apiUrl}/${id}`);
     }
 
     // Crear categoría
-    guardar(
-        request: CategoriaRequest
-    ): Observable<CategoriaResponse> {
-
-        return this.http.post<CategoriaResponse>(
-            this.apiUrl,
-            request
-        );
+    guardar(request: CategoriaRequest): Observable<CategoriaResponse> {
+        return this.http.post<CategoriaResponse>(this.apiUrl, request);
     }
 
     // Actualizar categoría
-    actualizar(
-        id: number,
-        request: CategoriaRequest
-    ): Observable<CategoriaResponse> {
-
-        return this.http.put<CategoriaResponse>(
-            `${this.apiUrl}/${id}`,
-            request
-        );
+    actualizar(id: number, request: CategoriaRequest): Observable<CategoriaResponse> {
+        return this.http.put<CategoriaResponse>(`${this.apiUrl}/${id}`, request);
     }
 
     // Desactivar categoría
     eliminar(id: number): Observable<string> {
-        return this.http.delete(
-            `${this.apiUrl}/${id}`,
-            {
-                responseType: 'text'
-            }
-        );
+        return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
     }
+
     // Activar categoría
     activar(id: number): Observable<void> {
-
-        return this.http.put<void>(
-            `${this.apiUrl}/${id}/activar`,
-            {}
-        );
+        return this.http.put<void>(`${this.apiUrl}/${id}/activar`, {});
     }
 
     // Buscar categoría por nombre
     buscarPorNombre(nombre: string): Observable<CategoriaResponse> {
-        return this.http.get<CategoriaResponse>(
-            `${this.apiUrl}/buscar`,
-            {
-                params: {
-                    nombre: nombre
-                }
-            }
-        );
+        return this.http.get<CategoriaResponse>(`${this.apiUrl}/buscar`, { params: { nombre: nombre } });
     }
 }
