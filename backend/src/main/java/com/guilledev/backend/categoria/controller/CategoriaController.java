@@ -104,13 +104,13 @@ public class CategoriaController {
     }
 
     // Buscar por nombre
-    @Operation(summary = "Buscar categoría por nombre", description = "Obtiene una categoría específica por su nombre")
+    @Operation(summary = "Buscar categorías por nombres", description = "Obtiene una categoría específica por su nombre")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Categoría encontrada"),
             @ApiResponse(responseCode = "404", description = "La categoría no existe")
     })
-    @GetMapping("/buscar")
-    public CategoriaResponse obtenerPorNombre(
+    @GetMapping("/buscarNombres")
+    public List<CategoriaResponse> obtenerPorNombre(
             @RequestParam String nombre) {
         return categoriaService.buscarPorNombre(nombre);
     }

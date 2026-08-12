@@ -19,6 +19,6 @@ public interface CategoriaService {
 
     void activar(Long id);
 
-    CategoriaResponse buscarPorNombre(String nombre);
+    List<CategoriaResponse> buscarPorNombre(String nombre);
 
 }

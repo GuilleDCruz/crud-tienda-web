@@ -96,21 +96,20 @@ public class MarcaController {
     })
 
     @PutMapping("{id}/activar")
-    public String activar(@PathVariable Long id) {
+    public void activar(@PathVariable Long id) {
         marcaService.activar(id);
-        return "Marca con '" + id + "'' activado correctamente";
     }
 
-    // Buscar por nombre
-    @Operation(summary = "Buscar marca por nombre", description = "Obtiene una marca específica por su nombre")
+    // Buscar por nombres
+    @Operation(summary = "Buscar marca por nombres", description = "Obtiene una marca específica por su nombre")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Marca encontrada"),
             @ApiResponse(responseCode = "404", description = "La marca no existe")
     })
-    @GetMapping("/buscar")
-    public MarcaResponse obtenerPorNombre(
+    @GetMapping("/buscarNombres")
+    public List<MarcaResponse> obtenerPorNombres(
             @RequestParam String nombre) {
-        return marcaService.buscarPorNombre(nombre);
+        return marcaService.buscarPorNombres(nombre);
     }
 
 }

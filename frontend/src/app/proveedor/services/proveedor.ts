@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { ProveedorRequest } from '../models/proveedor-request';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ProveedorService {
     private apiUrl = `${environment.apiUrl}/proveedor`;
@@ -44,8 +44,8 @@ export class ProveedorService {
         return this.http.put<void>(`${this.apiUrl}/${id}/activar`, {});
     }
 
-    // Buscar proveedor por nombre
-    buscarPorNombre(nombre: string): Observable<ProveedorResponse> {
-        return this.http.get<ProveedorResponse>(`${this.apiUrl}/buscar`, { params: { nombre: nombre } });
-    }   
+    // Buscar proveedor por nombres
+    buscarPorNombre(nombre: string): Observable<ProveedorResponse[]> {
+        return this.http.get<ProveedorResponse[]>(`${this.apiUrl}/buscarNombres`, { params: { nombre }});
+    }
 }

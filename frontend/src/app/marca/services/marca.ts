@@ -10,7 +10,7 @@ import { MarcaRequest } from '../models/marca-request';
 })
 export class MarcaService {
     private apiUrl = `${environment.apiUrl}/marca`;
-    
+
     constructor(private http: HttpClient) {
     }
 
@@ -20,60 +20,32 @@ export class MarcaService {
     }
 
     //Buscar marca por ID
-    buscarPorId(id: number): Observable<MarcaResponse>{
-        return this.http.get<MarcaResponse>(
-            `${this.apiUrl}/${id}`
-        );
+    buscarPorId(id: number): Observable<MarcaResponse> {
+        return this.http.get<MarcaResponse>(`${this.apiUrl}/${id}`);
     }
 
     //Crear marca
-    guardar(
-        request: MarcaRequest
-    ): Observable<MarcaResponse> {
-        return this.http.post<MarcaResponse>(
-            this.apiUrl,
-            request
-        );
+    guardar(request: MarcaRequest): Observable<MarcaResponse> {
+        return this.http.post<MarcaResponse>(this.apiUrl, request);
     }
 
     //Actualizar marca
-    actualizar(
-        id: number,
-        request: MarcaRequest
-    ): Observable<MarcaResponse> {
-        return this.http.put<MarcaResponse>(
-            `${this.apiUrl}/${id}`,
-            request
-        );
+    actualizar(id: number, request: MarcaRequest): Observable<MarcaResponse> {
+        return this.http.put<MarcaResponse>(`${this.apiUrl}/${id}`, request);
     }
-    
+
     //Desactivar marca
     eliminar(id: number): Observable<string> {
-        return this.http.delete(
-            `${this.apiUrl}/${id}`,
-            {
-                responseType: 'text'
-            }
-        );
+        return this.http.delete(`${this.apiUrl}/${id}`, { responseType: 'text' });
     }
 
     //Activar marca
     activar(id: number): Observable<void> {
-        return this.http.put<void>(
-            `${this.apiUrl}/activar/${id}`,
-            null
-        );
+        return this.http.put<void>(`${this.apiUrl}/${id}/activar`, {});
     }
-    
-    //Buscar marca por nombre
-    buscarPorNombre(nombre: string): Observable<MarcaResponse> {
-        return this.http.get<MarcaResponse>(
-            `${this.apiUrl}/buscar`,
-            {
-                params: {
-                    nombre: nombre
-                }
-            }
-        );
+
+    //Buscar marca por nombres
+    buscarPorNombres(nombre: string): Observable<MarcaResponse[]> {
+        return this.http.get<MarcaResponse[]>(`${this.apiUrl}/buscarNombres`, { params: { nombre } });
     }
 }

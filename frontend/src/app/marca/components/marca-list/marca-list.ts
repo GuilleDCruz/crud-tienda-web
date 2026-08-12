@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './marca-list.scss',
 })
 export class MarcaList implements OnInit {
+
   marcas = signal<MarcaResponse[]>([]);
   cargando = signal(false);
   mensajeError = signal('');
@@ -56,19 +57,22 @@ export class MarcaList implements OnInit {
   
   listarMarcas(): void {
     this.marcaService.listar().subscribe({
-      next: (marcas) => {
-        this.marcas.set(marcas);
+      next: (data) => {
+        this.marcas.set(data);
+        console.log(
+          this.marcas().length
+        );
         this.mensajeError.set('');
-        this.nombreBusqueda
+        this.cargando.set(false);
       },
       error: (error) => {
-        this.mensajeError.set('Error al listar las marcas');
-        console.error('Error al listar las marcas:', error);
+        this.marcas.set([]);
         this.cargando.set(false);
+        this.mensajeError.set('No fue posible obtener las marcas.');
       }
     });
   }
-
+  
   buscarPorId(id: string): void {
     console.log('Buscar marca por ID:', id);
   }
@@ -115,20 +119,29 @@ export class MarcaList implements OnInit {
     this.listarMarcas();
   }
 
-  buscarMarca(): void {
+  buscarMarca(){
     const nombre = this.nombreBusqueda.trim();
     if (!nombre) {
       this.listarMarcas();
       return;
     }
-    this.marcaService.buscarPorNombre(nombre).subscribe({
-      next: (marca) => {
-        this.marcas.set([marca]);
-        this.mensajeError.set('');
+    this.marcaService.buscarPorNombres(nombre).subscribe({
+      next: (data) => {
+        this.marcas.set(data);
+        if (data.length === 0) {
+          this.mensajeError.set(
+            `No se encontraron marcas con "${nombre}".`
+          );
+        } else {
+          this.mensajeError.set('');
+        }
       },
       error: (error) => {
-        console.error('Error al buscar la marca:', error);
-        this.mensajeError.set(error.error?.message ??'La marca no existe.');
+        console.error('Error al buscar marca:', error);
+        this.marcas.set([]);
+        this.mensajeError.set(
+          'No fue posible realizar la búsqueda.'
+        );
       }
     });
   }

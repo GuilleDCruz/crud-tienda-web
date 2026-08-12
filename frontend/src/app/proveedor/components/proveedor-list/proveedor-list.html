@@ -1,4 +1,4 @@
-<div class="categoria-container">
+<div class="crud-container">
 
     <!-- Encabezado -->
     <div class="header">
@@ -6,6 +6,7 @@
             <h1>Proveedores</h1>
             <p>Administración de proveedores de la tienda</p>
         </div>
+
         <button class="btn btn-primary" (click)="abrirCrear()">
             + Agregar proveedor
         </button>
@@ -14,11 +15,7 @@
 
     <!-- Barra de búsqueda -->
     <div class="search-container">
-        <input type="text" [(ngModel)]="nombreBusqueda" placeholder="Buscar proveedor por nombre"
-            (keyup.enter)="buscarProveedor()">
-        <button class="btn btn-primary" (click)="buscarProveedor()">
-            Buscar
-        </button>
+        <input type="text" [(ngModel)]="nombreBusqueda" (input)="buscarProveedor()" placeholder="Buscar proveedor...">
         <button class="btn btn-secondary" (click)="listarProveedores()">
             Mostrar todos
         </button>
@@ -33,7 +30,7 @@
     }
 
 
-    <!-- Mensaje de error -->
+    <!-- Mensaje de error / sin resultados -->
     @if (mensajeError()) {
     <div class="error-message">
         {{ mensajeError() }}
@@ -54,18 +51,22 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
+
             <tbody>
                 @for (proveedor of proveedores(); track proveedor.id) {
                 <tr>
                     <td>
                         {{ proveedor.id }}
                     </td>
+
                     <td>
                         {{ proveedor.nombre }}
                     </td>
+
                     <td>
                         {{ proveedor.descripcion }}
                     </td>
+
                     <td>
                         @if (proveedor.activo) {
                         <span class="status active">
@@ -76,12 +77,13 @@
                             Inactiva
                         </span>
                         }
-
                     </td>
+
                     <td class="actions">
                         <button class="btn btn-edit" (click)="editarProveedor(proveedor.id)">
                             Editar
                         </button>
+
                         @if (proveedor.activo) {
                         <button class="btn btn-delete" (click)="abrirConfirmacion(proveedor)">
                             Desactivar
@@ -99,17 +101,24 @@
     </div>
     }
 
+
     <!-- Sin resultados -->
     @if (!cargando() && proveedores().length === 0 && !mensajeError()) {
     <div class="message">
         No hay proveedores para mostrar.
     </div>
     }
+
+
+    <!-- Modal crear / editar -->
     @if (modoModal() !== null) {
     <app-proveedor-modal [modo]="modoModal()!" [proveedor]="proveedorSeleccionado()" (cerrar)="cerrarModal()"
         (proveedorGuardado)="proveedorGuardado()">
     </app-proveedor-modal>
     }
+
+
+    <!-- Confirmación activar / desactivar -->
     @if (mostrarConfirmacion()) {
     <app-proveedor-confirm [proveedor]="proveedorSeleccionado()" [accion]="accionConfirmacion()!"
         (cerrar)="cerrarConfirmacion()" (accionRealizada)="accionRealizada()">

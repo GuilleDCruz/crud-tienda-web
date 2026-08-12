@@ -116,14 +116,9 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public CategoriaResponse buscarPorNombre(String nombre) {
-
-        Categoria categoria = repository
-                .findByNombreIgnoreCase(nombre)
-                .orElseThrow(() -> new CategoriaNotFoundNameException(
-                        "La categoría con nombre " + nombre + " no existe."));
-
-        return mapper.toResponse(categoria);
+    public List<CategoriaResponse> buscarPorNombre(String nombre) {
+        List<Categoria> categorias = repository.findByNombreContainingIgnoreCase(nombre);
+        return categorias.stream().map(mapper::toResponse).toList();
     }
 
 }

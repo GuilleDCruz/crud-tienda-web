@@ -60,28 +60,21 @@ export class CategoriaList implements OnInit {
 
   listarCategorias(): void {
     this.categoriaService.listar().subscribe({
-      next: (categorias) => {
-        this.categorias.set(categorias);
+      next: (data) => {
+        this.categorias.set(data);
         this.mensajeError.set('');
-        this.nombreBusqueda = '';
+        this.cargando.set(false);
       },
       error: (error) => {
-        console.error('Error al listar categorías:', error);
+        this.categorias.set([]);
+        this.cargando.set(false);
         this.mensajeError.set('No fue posible obtener las categorías.');
       }
     });
   }
 
-  buscarPorId(id: string): void {
-    console.log('Mostrar categoría con ID:', id);
-  }
-
   limpiarBusqueda(): void {
     this.listarCategorias();
-  }
-
-  agregarCategoria(): void {
-    console.log('Abrir formulario para agregar categoría');
   }
 
   editarCategoria(id: number): void {
@@ -114,24 +107,27 @@ export class CategoriaList implements OnInit {
     this.listarCategorias();
   }
 
-  buscarCategoria(): void {
+  buscarCategoria() {
     const nombre = this.nombreBusqueda.trim();
     if (!nombre) {
       this.listarCategorias();
       return;
     }
-    this.categoriaService
-      .buscarPorNombre(nombre)
-      .subscribe({
-        next: (categoria) => {
-          this.categorias.set([categoria]);
+    this.categoriaService.buscarPorNombres(nombre).subscribe({
+      next: (data) => {
+        this.categorias.set(data);
+        if (data.length === 0) {
+          this.mensajeError.set('No se encontraron categorías con ese nombre.');
+        } else {
           this.mensajeError.set('');
-        },
-        error: (error) => {
-          console.error('Error al buscar categoría:', error);
-          this.mensajeError.set(error.error?.message ?? 'La categoría no existe.');
         }
-      });
+      },
+      error: (error) => {
+        console.error('Error al buscar categoría:', error);
+        this.categorias.set([]);
+        this.mensajeError.set('La categoría no existe.');
+      }
+    });
   }
 
 }

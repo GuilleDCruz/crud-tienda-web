@@ -13,15 +13,15 @@ import { ProveedorService } from '../../services/proveedor';
 })
 export class ProveedorList implements OnInit {
 
-  proveedores = signal<ProveedorResponse[]>([]);
   cargando = signal(false);
   mensajeError = signal('');
   mostrarModal = signal(false);
-  nombreBusqueda = '';
   modoModal = signal<'crear' | 'editar' | null>(null);
   proveedorSeleccionado = signal<ProveedorResponse | null>(null);
   mostrarConfirmacion = signal(false);
   accionConfirmacion = signal<'activar' | 'desactivar' | null>(null);
+  nombreBusqueda = '';
+  proveedores = signal<ProveedorResponse[]>([]);
 
   constructor(private proveedorService: ProveedorService) { }
 
@@ -55,28 +55,21 @@ export class ProveedorList implements OnInit {
 
   listarProveedores(): void {
     this.proveedorService.listar().subscribe({
-      next: (proveedores) => {
-        this.proveedores.set(proveedores);
+      next: (data) => {
+        this.proveedores.set(data);
         this.mensajeError.set('');
-        this.nombreBusqueda = '';
+        this.cargando.set(false);
       },
       error: (error) => {
-        console.error('Error al listar proveedores:', error);
+        this.proveedores.set([]);
+        this.cargando.set(false);
         this.mensajeError.set('No fue posible obtener los proveedores.');
       }
     });
   }
 
-  buscarPorId(id: string): void {
-    console.log('Mostrar categoria con ID:', id);
-  }
-
   limpiarBusqueda(): void {
     this.listarProveedores();
-  }
-
-  agregarProveedor(): void {
-    console.log('Abrir formulario para agregar proveedor');
   }
 
   editarProveedor(id: number): void {
@@ -109,20 +102,25 @@ export class ProveedorList implements OnInit {
     this.listarProveedores();
   }
 
-  buscarProveedor(): void {
+  buscarProveedor() {
     const nombre = this.nombreBusqueda.trim();
     if (!nombre) {
       this.listarProveedores();
       return;
     }
     this.proveedorService.buscarPorNombre(nombre).subscribe({
-      next: (proveedor) => {
-        this.proveedores.set([proveedor]);
-        this.mensajeError.set('');
+      next: (data) => {
+        this.proveedores.set(data);
+        if (data.length === 0) {
+          this.mensajeError.set(`No se encontraron proveedores con "${nombre}".`);
+        } else {
+          this.mensajeError.set('');
+        }
       },
       error: (error) => {
         console.error('Error al buscar proveedor:', error);
-        this.mensajeError.set('No fue posible encontrar el proveedor.');
+        this.proveedores.set([]);
+        this.mensajeError.set('No fue posible realizar la búsqueda.');
       }
     });
   }

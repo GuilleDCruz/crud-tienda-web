@@ -48,8 +48,8 @@ export class CategoriaService {
         return this.http.put<void>(`${this.apiUrl}/${id}/activar`, {});
     }
 
-    // Buscar categoría por nombre
-    buscarPorNombre(nombre: string): Observable<CategoriaResponse> {
-        return this.http.get<CategoriaResponse>(`${this.apiUrl}/buscar`, { params: { nombre: nombre } });
+    // Buscar categoría por nombres
+    buscarPorNombres(nombre: string): Observable<CategoriaResponse[]> {
+        return this.http.get<CategoriaResponse[]>(`${this.apiUrl}/buscarNombres`, { params: { nombre } });
     }
 }

@@ -12,6 +12,6 @@ public interface MarcaService {
     MarcaResponse actualizar(Long id, MarcaRequest request);
     void eliminar(Long id);
     void activar(Long id);
-    MarcaResponse buscarPorNombre(String nombre);
+    List<MarcaResponse> buscarPorNombres(String nombre);
     
 }

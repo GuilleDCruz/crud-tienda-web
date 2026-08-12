@@ -101,10 +101,8 @@ public class ProveedorServiceImpl implements ProveedorService {
     }
 
     @Override
-    public ProveedorResponse buscarPorNombre(String nombre) {
-        Proveedor proveedor = repository.findByNombreIgnoreCase(nombre).orElseThrow(
-                () -> new ProveedorNotFoundNameException("El proveedor con nombre " + nombre + " no existe"));
-        return mapper.toResponse(proveedor);
+    public List<ProveedorResponse> buscarPorNombres(String nombre) {
+        List<Proveedor> proveedores = repository.findByNombreContainingIgnoreCase(nombre);
+        return proveedores.stream().map(mapper::toResponse).toList();
     }
-
 }

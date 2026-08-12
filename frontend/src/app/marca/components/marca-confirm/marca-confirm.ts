@@ -24,9 +24,9 @@ export class MarcaConfirm {
 
   cargando = signal(false);
   mensajeError = signal('');
-  
+
   constructor(private marcaService: MarcaService) { }
-  
+
   cancelar(): void {
     this.cerrar.emit();
   }
@@ -83,5 +83,5 @@ export class MarcaConfirm {
         }
       });
   }
-  
+
 }

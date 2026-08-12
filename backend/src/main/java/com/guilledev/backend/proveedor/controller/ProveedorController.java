@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 import com.guilledev.backend.proveedor.dto.ProveedorRequest;
 import com.guilledev.backend.proveedor.dto.ProveedorResponse;
 import com.guilledev.backend.proveedor.service.ProveedorService;
@@ -44,7 +43,6 @@ public class ProveedorController {
     @PostMapping
     public ProveedorResponse guardar(@Valid @RequestBody ProveedorRequest request) {
 
-        
         return proveedorService.guardar(request);
     }
 
@@ -56,7 +54,7 @@ public class ProveedorController {
     })
 
     @PutMapping("{id}")
-    public ProveedorResponse actualizar(@Valid @PathVariable Long id, @RequestBody ProveedorRequest request){
+    public ProveedorResponse actualizar(@Valid @PathVariable Long id, @RequestBody ProveedorRequest request) {
         return proveedorService.actualizar(id, request);
     }
 
@@ -67,10 +65,9 @@ public class ProveedorController {
     })
 
     @GetMapping
-    public List<ProveedorResponse> listar(){
+    public List<ProveedorResponse> listar() {
         return proveedorService.listar();
     }
-
 
     // Listar por id
     @Operation(summary = "Listar un proveedor por Id", description = "Obtiene un proveedor especifico por Id")
@@ -80,7 +77,7 @@ public class ProveedorController {
     })
 
     @GetMapping("{id}")
-    public ProveedorResponse buscarPorID(@PathVariable Long id){
+    public ProveedorResponse buscarPorID(@PathVariable Long id) {
         return proveedorService.buscarPorID(id);
     }
 
@@ -92,7 +89,7 @@ public class ProveedorController {
     })
 
     @DeleteMapping("{id}")
-    public String eliminar(@PathVariable Long id){
+    public String eliminar(@PathVariable Long id) {
         proveedorService.eliminar(id);
         return "Proveedor con '" + id + "'' desactivado correctamente";
     }
@@ -104,23 +101,21 @@ public class ProveedorController {
             @ApiResponse(responseCode = "404", description = "El proveedor no existe")
     })
 
-    @DeleteMapping("{id}/activar")
-    public String activar(@PathVariable Long id){
+    @PutMapping("{id}/activar")
+    public void activar(@PathVariable Long id) {
         proveedorService.activar(id);
-        return "Proveedor con '" + id + "'' activado correctamente";
     }
 
-    // Buscar por nombre
-    @Operation(summary = "Busca proveedor por nombre", description = "Obtiene un proveedor especifico por su nombre")
+    // Buscar por nombres
+    @Operation(summary = "Busca proveedores por nombre", description = "Obtiene una lista de proveedores por su nombre y coinciendias")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Proveedor encontrado"),
-            @ApiResponse(responseCode = "404", description = "El proveedor no existe")
+            @ApiResponse(responseCode = "200", description = "Proveedores encontrados"),
+            @ApiResponse(responseCode = "404", description = "No se encontraron proveedores")
     })
-
-    @GetMapping("/buscar")
-    public ProveedorResponse obtenerPorNombre(@RequestParam String nombre){
-        return proveedorService.buscarPorNombre(nombre);
-    } 
-    
+    @GetMapping("/buscarNombres")
+    public List<ProveedorResponse> buscarPorNombre(
+            @RequestParam String nombre) {
+        return proveedorService.buscarPorNombres(nombre);
+    }
 
 }

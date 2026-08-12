@@ -1,4 +1,4 @@
-<div class="categoria-container">
+<div class="crud-container">
 
   <!-- Encabezado -->
   <div class="header">
@@ -14,11 +14,7 @@
 
   <!-- Barra de búsqueda -->
   <div class="search-container">
-    <input type="text" [(ngModel)]="nombreBusqueda" placeholder="Buscar categoría por nombre"
-      (keyup.enter)="buscarCategoria()">
-    <button class="btn btn-primary" (click)="buscarCategoria()">
-      Buscar
-    </button>
+    <input type="text" [(ngModel)]="nombreBusqueda" (input)="buscarCategoria()" placeholder="Buscar categoría por nombre...">
     <button class="btn btn-secondary" (click)="listarCategorias()">
       Mostrar todas
     </button>
@@ -33,7 +29,7 @@
   }
 
 
-  <!-- Mensaje de error -->
+  <!-- Mensaje de error / sin resultados -->
   @if (mensajeError()) {
   <div class="error-message">
     {{ mensajeError() }}

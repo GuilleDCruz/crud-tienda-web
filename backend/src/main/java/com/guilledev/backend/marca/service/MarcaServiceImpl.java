@@ -101,10 +101,9 @@ public class MarcaServiceImpl implements MarcaService {
     }
 
     @Override
-    public MarcaResponse buscarPorNombre(String nombre) {
-        Marca marca = repository.findByNombreIgnoreCase(nombre)
-                .orElseThrow(() -> new MarcaNotFoundNameException("La categoria con nombre " + nombre + " no existe"));
-        return mapper.toResponse(marca);
+    public List<MarcaResponse> buscarPorNombres(String nombre) {
+        List<Marca> marcas = repository.findByNombreContainingIgnoreCase(nombre);
+        return marcas.stream().map(mapper::toResponse).collect(java.util.stream.Collectors.toList());
     }
 
 }

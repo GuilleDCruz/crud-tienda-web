@@ -12,6 +12,6 @@ public interface ProveedorService {
     ProveedorResponse actualizar(Long id, ProveedorRequest request);
     void eliminar(Long id);
     void activar(Long id);
-    ProveedorResponse buscarPorNombre(String nombre);
+    List<ProveedorResponse> buscarPorNombres(String nombre);
     
 } 
