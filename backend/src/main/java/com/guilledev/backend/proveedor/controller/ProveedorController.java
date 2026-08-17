@@ -107,11 +107,12 @@ public class ProveedorController {
     }
 
     // Buscar por nombres
-    @Operation(summary = "Busca proveedores por nombre", description = "Obtiene una lista de proveedores por su nombre y coinciendias")
+    @Operation(summary = "Busca proveedores por nombre", description = "Obtiene una lista de proveedores por su nombre y coincidencias")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Proveedores encontrados"),
             @ApiResponse(responseCode = "404", description = "No se encontraron proveedores")
     })
+
     @GetMapping("/buscarNombres")
     public List<ProveedorResponse> buscarPorNombre(
             @RequestParam String nombre) {

@@ -12,6 +12,8 @@ import com.guilledev.backend.exception.categoria.CategoriaDuplicadaException;
 import com.guilledev.backend.exception.categoria.CategoriaNotFoundException;
 import com.guilledev.backend.exception.marca.MarcaDuplicadaException;
 import com.guilledev.backend.exception.marca.MarcaNotFoundException;
+import com.guilledev.backend.exception.producto.ProductoDuplicadoException;
+import com.guilledev.backend.exception.producto.ProductoNotFoundException;
 import com.guilledev.backend.exception.proveedor.ProveedorDuplicadoException;
 import com.guilledev.backend.exception.proveedor.ProveedorNotFoundException;
 
@@ -102,6 +104,32 @@ public class GlobalExceptionHandler {
         @ExceptionHandler(ProveedorDuplicadoException.class)
         public ResponseEntity<ErrorResponse> marcaDuplicada(
                         ProveedorDuplicadoException ex) {
+                ErrorResponse error = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.CONFLICT.value(),
+                                HttpStatus.CONFLICT.getReasonPhrase(),
+                                ex.getMessage());
+                return ResponseEntity
+                                .status(HttpStatus.CONFLICT)
+                                .body(error);
+        }
+
+        @ExceptionHandler(ProductoDuplicadoException.class)
+        public ResponseEntity<ErrorResponse> productoDuplicada(
+                        ProductoDuplicadoException ex) {
+                ErrorResponse error = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.CONFLICT.value(),
+                                HttpStatus.CONFLICT.getReasonPhrase(),
+                                ex.getMessage());
+                return ResponseEntity
+                                .status(HttpStatus.CONFLICT)
+                                .body(error);
+        }
+
+        @ExceptionHandler(ProductoNotFoundException.class)
+        public ResponseEntity<ErrorResponse> productoNoEncontrado(
+                        ProductoNotFoundException ex) {
                 ErrorResponse error = new ErrorResponse(
                                 LocalDateTime.now(),
                                 HttpStatus.CONFLICT.value(),
