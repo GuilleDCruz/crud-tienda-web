@@ -3,4 +3,7 @@ export interface ProveedorResponse {
   nombre: string;
   descripcion: string;
   activo: boolean;
+
+  createdAt: string;
+  updatedAt: string;
 }

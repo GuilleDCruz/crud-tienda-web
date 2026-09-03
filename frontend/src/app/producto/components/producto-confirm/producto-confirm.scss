@@ -1,0 +1,231 @@
+@use '@angular/material' as mat;
+
+// Variables del proyecto
+$primary-color: #1976d2;
+$error-color: #d32f2f;
+$success-color: #388e3c;
+
+// Contenedor de confirmación
+.dialogo-confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  .dialogo-dialog {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 450px;
+    padding: 24px;
+
+    .dialogo-titulo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+
+      h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .icono-alerta {
+        padding: 8px;
+        background-color: rgba(211, 47, 47, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          width: 24px;
+          height: 24px;
+          color: $error-color;
+        }
+      }
+    }
+
+    .dialogo-mensaje {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .dialogo-acciones {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+
+      .btn-boton {
+        min-width: 100px;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &.btn-si {
+          background-color: $error-color;
+          color: white;
+          border: none;
+
+          &:hover {
+            background-color: darken($error-color, 5%);
+          }
+        }
+
+        &.btn-no {
+          background-color: transparent;
+          color: var(--text-secondary);
+          border: 1px solid var(--border-color);
+
+          &:hover {
+            color: $error-color;
+            border-color: $error-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Mensaje de éxito con icono check
+.dialogo-exito {
+  .dialogo-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .icono-exito {
+      padding: 8px;
+      background-color: rgba(56, 142, 60, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        color: $success-color;
+      }
+    }
+  }
+
+  .dialogo-mensaje {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 24px;
+
+    strong {
+      color: var(--text-primary);
+    }
+  }
+
+  .dialogo-acciones {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn-boton {
+      min-width: 100px;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.btn-comprender {
+        background-color: $primary-color;
+        color: white;
+        border: none;
+
+        &:hover {
+          background-color: darken($primary-color, 8%);
+        }
+      }
+    }
+  }
+}
+
+// Mensaje de advertencia
+.dialogo-advertencia {
+  .dialogo-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .icono-info {
+      padding: 8px;
+      background-color: rgba(157, 163, 183, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        color: #666;
+      }
+    }
+  }
+
+  .dialogo-mensaje {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .dialogo-acciones {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn-boton {
+      min-width: 100px;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.btn-comprender {
+        background-color: $primary-color;
+        color: white;
+        border: none;
+
+        &:hover {
+          background-color: darken($primary-color, 8%);
+        }
+      }
+    }
+  }
+}

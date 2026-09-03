@@ -1,0 +1,124 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>{{ modo === 'crear' ? 'Agregar producto' : 'Editar producto' }}</h2>
+      <button type="button" class="btn-close" (click)="cancelar()" [disabled]="cargandoGuardado()">
+        ×
+      </button>
+    </div>
+
+    <div class="modal-body">
+      @if (mensajeError()) {
+        <div class="error-message">
+          {{ mensajeError() }}
+        </div>
+      }
+
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input 
+          id="nombre" 
+          type="text" 
+          [(ngModel)]="nombre" 
+          placeholder="Ingrese el nombre del producto"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea 
+          id="descripcion" 
+          [(ngModel)]="descripcion" 
+          placeholder="Ingrese la descripción del producto"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="precio">Precio</label>
+        <input 
+          id="precio" 
+          type="number" 
+          [(ngModel)]="precio" 
+          placeholder="Ingrese el precio"
+          min="0.01"
+          step="0.01"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="stock">Stock</label>
+        <input 
+          id="stock" 
+          type="number" 
+          [(ngModel)]="stock" 
+          placeholder="Ingrese el stock"
+          min="0"
+          step="1"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="categoriaId">Categoría</label>
+        <select id="categoriaId" [(ngModel)]="categoriaId" required>
+          <option [ngValue]="null" disabled>Seleccione una categoría</option>
+          @for (cat of categorias; track cat.id) {
+            <option [ngValue]="cat.id">{{ cat.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="marcaId">Marca</label>
+        <select id="marcaId" [(ngModel)]="marcaId" required>
+          <option [ngValue]="null" disabled>Seleccione una marca</option>
+          @for (m of marcas; track m.id) {
+            <option [ngValue]="m.id">{{ m.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="proveedorId">Proveedor</label>
+        <select id="proveedorId" [(ngModel)]="proveedorId" required>
+          <option [ngValue]="null" disabled>Seleccione un proveedor</option>
+          @for (prov of proveedores; track prov.id) {
+            <option [ngValue]="prov.id">{{ prov.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      @if (modo === 'crear') {
+        <div class="form-group">
+          <label for="activo">Estado</label>
+          <select id="activo" [(ngModel)]="activo" required>
+            <option [ngValue]="true">Activo</option>
+            <option [ngValue]="false">Inactivo</option>
+          </select>
+        </div>
+      }
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cancelar()" [disabled]="cargandoGuardado()">
+        Cancelar
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-primary" 
+        (click)="guardar()" 
+        [disabled]="cargandoGuardado() || !nombre.trim() || precio === null || precio <= 0 || stock === null || stock < 0 || !categoriaId || !marcaId || !proveedorId"
+      >
+        @if (cargandoGuardado()) {
+          Guardando...
+        } @else if (modo === 'crear') {
+          Crear
+        } @else {
+          Guardar cambios
+        }
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,204 @@
+@use '@angular/material' as mat;
+
+// Variables del proyecto
+$primary-color: #1976d2;
+$secondary-color: #0288d1;
+$error-color: #d32f2f;
+$success-color: #388e3c;
+
+// Contenedor principal
+.contenedor-productos {
+  padding: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.titulo-seccion {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+// Buscador
+.input-busqueda {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 16px;
+
+  &::placeholder {
+    color: #9e9e9e;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+  }
+}
+
+// Mensajes
+.mensaje-container {
+  margin-bottom: 16px;
+}
+
+.error-mensaje {
+  color: $error-color;
+  padding: 8px 12px;
+  background-color: rgba(211, 47, 47, 0.1);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.exito-mensaje {
+  color: $success-color;
+  padding: 8px 12px;
+  background-color: rgba(56, 142, 60, 0.1);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+// Tabla
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+
+    &:first-child {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    &:last-child {
+      white-space: nowrap;
+    }
+  }
+
+  thead {
+    background-color: #f5f5f5;
+
+    th {
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--border-color);
+    }
+  }
+
+  tbody {
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    td:first-child {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .precio {
+      color: $success-color;
+      font-weight: 600;
+    }
+
+    .acciones {
+      white-space: nowrap;
+
+      button {
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+// Badges de estado
+.badge-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.estado-activo {
+    background-color: rgba(56, 142, 60, 0.1);
+    color: $success-color;
+  }
+
+  &.estado-inactivo {
+    background-color: rgba(211, 47, 47, 0.1);
+    color: $error-color;
+  }
+}
+
+// Mensaje de vacío
+.mensaje-vacio {
+  text-align: center;
+  padding: 32px;
+  color: #9e9e9e;
+  font-style: italic;
+}
+
+// Botones
+.contenedor-boton-accion {
+  margin-top: 16px;
+
+  .btn-boton {
+    min-width: 140px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+
+    &.btn-agregar {
+      background-color: $primary-color;
+      color: white;
+
+      &:hover {
+        background-color: darken($primary-color, 8%);
+      }
+
+      &:disabled {
+        background-color: #9e9e9e;
+        cursor: not-allowed;
+      }
+    }
+
+    &.btn-editar {
+      background-color: $secondary-color;
+      color: white;
+
+      &:hover {
+        background-color: darken($secondary-color, 8%);
+      }
+
+      &:disabled {
+        background-color: #9e9e9e;
+        cursor: not-allowed;
+      }
+    }
+
+    &.btn-confirmar {
+      background-color: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+
+      &:hover {
+        color: $error-color;
+        border-color: $error-color;
+      }
+    }
+  }
+}

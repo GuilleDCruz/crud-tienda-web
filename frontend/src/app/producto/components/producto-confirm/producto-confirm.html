@@ -1,0 +1,65 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>
+        @if (accion === 'desactivar') {
+          Desactivar producto
+        } @else {
+          Activar producto
+        }
+      </h2>
+      <button type="button" class="btn-close" (click)="cancelar()" [disabled]="cargando()">
+        ×
+      </button>
+    </div>
+
+    <div class="modal-body">
+      @if (accion === 'desactivar') {
+        <p>
+          ¿Estás seguro de que deseas desactivar el producto
+          <strong>{{ producto?.nombre }}</strong>?
+        </p>
+        <p class="warning" style="color: #b91c1c; margin-top: 8px;">
+          El producto dejará de estar activo.
+        </p>
+      } @else {
+        <p>
+          ¿Estás seguro de que deseas activar el producto
+          <strong>{{ producto?.nombre }}</strong>?
+        </p>
+        <p class="success" style="color: #15803d; margin-top: 8px;">
+          El producto volverá a estar activo.
+        </p>
+      }
+
+      @if (mensajeError()) {
+        <div class="error-message" style="margin-top: 12px;">
+          {{ mensajeError() }}
+        </div>
+      }
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cancelar()" [disabled]="cargando()">
+        Cancelar
+      </button>
+      @if (accion === 'desactivar') {
+        <button type="button" class="btn btn-delete" (click)="confirmar()" [disabled]="cargando()">
+          @if (cargando()) {
+            Desactivando...
+          } @else {
+            Desactivar
+          }
+        </button>
+      } @else {
+        <button type="button" class="btn btn-success" (click)="confirmar()" [disabled]="cargando()">
+          @if (cargando()) {
+            Activando...
+          } @else {
+            Activar
+          }
+        </button>
+      }
+    </div>
+  </div>
+</div>
