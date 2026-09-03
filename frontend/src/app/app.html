@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<div class="app-layout">
+  <header class="main-navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <span class="brand-title">Tienda Web</span>
+      </div>
+      <nav class="navbar-nav">
+        @for (item of navItems; track item.route) {
+          <a 
+            class="nav-link" 
+            [routerLink]="item.route" 
+            routerLinkActive="active"
+          >
+            {{ item.label }}
+          </a>
+        }
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
