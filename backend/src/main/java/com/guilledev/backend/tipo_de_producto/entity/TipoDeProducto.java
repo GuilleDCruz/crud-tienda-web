@@ -1,4 +1,4 @@
-package com.guilledev.backend.marca.entity;
+package com.guilledev.backend.tipo_de_producto.entity;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +15,7 @@ import lombok.Setter;
 import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "marca")
+@Table(name = "tipo_de_producto")
 
 @Getter
 @Setter
@@ -23,7 +23,8 @@ import jakarta.persistence.Id;
 @AllArgsConstructor
 @Builder
 
-public class Marca {
+public class TipoDeProducto {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -40,4 +41,5 @@ public class Marca {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
 }

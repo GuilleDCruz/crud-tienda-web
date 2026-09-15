@@ -11,6 +11,7 @@ import com.guilledev.backend.exception.marca.MarcaNotFoundException;
 import com.guilledev.backend.exception.producto.ProductoDuplicadoException;
 import com.guilledev.backend.exception.producto.ProductoNotFoundException;
 import com.guilledev.backend.exception.proveedor.ProveedorNotFoundException;
+import com.guilledev.backend.exception.tipoproducto.TipoProductoNotFoundException;
 import com.guilledev.backend.marca.entity.Marca;
 import com.guilledev.backend.marca.repository.MarcaRepository;
 import com.guilledev.backend.producto.dto.ProductoRequest;
@@ -20,6 +21,8 @@ import com.guilledev.backend.producto.mapper.ProductoMapper;
 import com.guilledev.backend.producto.repository.ProductoRepository;
 import com.guilledev.backend.proveedor.entity.Proveedor;
 import com.guilledev.backend.proveedor.repository.ProveedorRepository;
+import com.guilledev.backend.tipo_de_producto.entity.TipoDeProducto;
+import com.guilledev.backend.tipo_de_producto.repository.TipoDeProductoRepository;
 
 @Service
 public class ProductoServiceImpl implements ProductoService {
@@ -29,19 +32,22 @@ public class ProductoServiceImpl implements ProductoService {
     private final MarcaRepository marcaRepository;
     private final ProveedorRepository proveedorRepository;
     private final ProductoMapper productoMapper;
+    private final TipoDeProductoRepository tipoProductoRepository;
 
     public ProductoServiceImpl(
             ProductoRepository productoRepository,
             CategoriaRepository categoriaRepository,
             MarcaRepository marcaRepository,
             ProveedorRepository proveedorRepository,
-            ProductoMapper productoMapper) {
+            ProductoMapper productoMapper,
+            TipoDeProductoRepository tipoProductoRepository) {
 
         this.productoRepository = productoRepository;
         this.categoriaRepository = categoriaRepository;
         this.marcaRepository = marcaRepository;
         this.proveedorRepository = proveedorRepository;
         this.productoMapper = productoMapper;
+        this.tipoProductoRepository = tipoProductoRepository;
     }
 
     @Override
@@ -59,11 +65,15 @@ public class ProductoServiceImpl implements ProductoService {
         Proveedor proveedor = proveedorRepository.findById(productoRequest.getProveedorId())
                 .orElseThrow(() -> new ProveedorNotFoundException(productoRequest.getProveedorId()));
 
+        TipoDeProducto tipoDeProducto = tipoProductoRepository.findById(productoRequest.getTipoDeProductoId())
+                .orElseThrow(() -> new TipoProductoNotFoundException(productoRequest.getTipoDeProductoId()));
+
         Producto producto = productoMapper.toEntity(productoRequest);
 
         producto.setCategoria(categoria);
         producto.setMarca(marca);
         producto.setProveedor(proveedor);
+        producto.setTipoDeProducto(tipoDeProducto);
 
         Producto productoGuardado = productoRepository.save(producto);
 
@@ -71,7 +81,7 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public List<ProductoResponse> listar() {     
+    public List<ProductoResponse> listar() {
         return productoRepository.findAll().stream().map(productoMapper::toResponse).toList();
     }
 
@@ -99,6 +109,9 @@ public class ProductoServiceImpl implements ProductoService {
         Proveedor proveedor = proveedorRepository.findById(request.getProveedorId())
                 .orElseThrow(() -> new ProveedorNotFoundException(request.getProveedorId()));
 
+        TipoDeProducto tipoDeProducto = tipoProductoRepository.findById(request.getTipoDeProductoId())
+                .orElseThrow(() -> new TipoProductoNotFoundException(request.getTipoDeProductoId()));
+
         producto.setNombre(request.getNombre());
         producto.setDescripcion(request.getDescripcion());
         producto.setPrecio(request.getPrecio());
@@ -107,6 +120,7 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setCategoria(categoria);
         producto.setMarca(marca);
         producto.setProveedor(proveedor);
+        producto.setTipoDeProducto(tipoDeProducto);
 
         Producto productoActualizado = productoRepository.save(producto);
 

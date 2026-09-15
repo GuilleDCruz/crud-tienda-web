@@ -39,6 +39,9 @@ public class ProductoMapper {
         response.setProveedorId(producto.getProveedor().getId());
         response.setProveedorNombre(producto.getProveedor().getNombre());
 
+        response.setTipoDeProductoId(producto.getTipoDeProducto().getId());
+        response.setTipoDeProductoNombre(producto.getTipoDeProducto().getNombre());
+
         return response;
     }
 

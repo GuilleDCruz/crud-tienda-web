@@ -92,7 +92,7 @@ public class CategoriaController {
         return "Categoría con '" + id + "' eliminada correctamente";
     }
 
-    // Actuivar estado de la categoría
+    // Activar estado de la categoría
     @Operation(summary = "Activar una categoría", description = "Activa una categoría existente mediante su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Categoría activada correctamente"),

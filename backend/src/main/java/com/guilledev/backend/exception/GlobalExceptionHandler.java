@@ -16,6 +16,8 @@ import com.guilledev.backend.exception.producto.ProductoDuplicadoException;
 import com.guilledev.backend.exception.producto.ProductoNotFoundException;
 import com.guilledev.backend.exception.proveedor.ProveedorDuplicadoException;
 import com.guilledev.backend.exception.proveedor.ProveedorNotFoundException;
+import com.guilledev.backend.exception.tipoproducto.TipoProductoNotFoundException;
+import com.guilledev.backend.exception.tipoproducto.TipoProductoDuplicadoException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -130,6 +132,32 @@ public class GlobalExceptionHandler {
         @ExceptionHandler(ProductoNotFoundException.class)
         public ResponseEntity<ErrorResponse> productoNoEncontrado(
                         ProductoNotFoundException ex) {
+                ErrorResponse error = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.CONFLICT.value(),
+                                HttpStatus.CONFLICT.getReasonPhrase(),
+                                ex.getMessage());
+                return ResponseEntity
+                                .status(HttpStatus.CONFLICT)
+                                .body(error);
+        }
+
+        @ExceptionHandler(TipoProductoNotFoundException.class)
+        public ResponseEntity<ErrorResponse> tipoProductoNoEncontrado(
+                        TipoProductoNotFoundException ex) {
+                ErrorResponse error = new ErrorResponse(
+                                LocalDateTime.now(),
+                                HttpStatus.NOT_FOUND.value(),
+                                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                                ex.getMessage());
+                return ResponseEntity
+                                .status(HttpStatus.NOT_FOUND)
+                                .body(error);
+        }
+
+        @ExceptionHandler(TipoProductoDuplicadoException.class)
+        public ResponseEntity<ErrorResponse> tipoProductoDuplicada(
+                        TipoProductoDuplicadoException ex) {
                 ErrorResponse error = new ErrorResponse(
                                 LocalDateTime.now(),
                                 HttpStatus.CONFLICT.value(),

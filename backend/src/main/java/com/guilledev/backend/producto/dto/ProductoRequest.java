@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductoRequest {
-    
+
     @NotBlank
     @Size(max = 100)
     private String nombre;
@@ -33,5 +33,8 @@ public class ProductoRequest {
 
     @NotNull
     private Long proveedorId;
-    
+
+    @NotNull
+    private Long tipoDeProductoId;
+
 }

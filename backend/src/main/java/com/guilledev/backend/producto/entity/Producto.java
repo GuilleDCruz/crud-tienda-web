@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import com.guilledev.backend.categoria.entity.Categoria;
 import com.guilledev.backend.marca.entity.Marca;
 import com.guilledev.backend.proveedor.entity.Proveedor;
+import com.guilledev.backend.tipo_de_producto.entity.TipoDeProducto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "productos")  
+@Table(name = "productos")
 @Getter
 @Setter
 public class Producto {
@@ -56,10 +57,14 @@ public class Producto {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "marca_id", nullable = false)
     private Marca marca;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "proveed_id", nullable = false)
+    @JoinColumn(name = "proveedor_id", nullable = false)
     private Proveedor proveedor;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tipo_de_producto_id", nullable = false)
+    private TipoDeProducto tipoDeProducto;
 
     @PrePersist
     protected void onCreate() {
