@@ -7,10 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.guilledev.backend.exception.proveedor.ProveedorDuplicadoException;
-import com.guilledev.backend.exception.proveedor.ProveedorNotExistException;
 import com.guilledev.backend.exception.proveedor.ProveedorNotFoundException;
-import com.guilledev.backend.exception.proveedor.ProveedorNotFoundNameException;
-import com.guilledev.backend.marca.dto.MarcaRequest;
 import com.guilledev.backend.proveedor.dto.ProveedorRequest;
 import com.guilledev.backend.proveedor.dto.ProveedorResponse;
 import com.guilledev.backend.proveedor.entity.Proveedor;
@@ -93,7 +90,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     public void activar(Long id) {
         Optional<Proveedor> proveedorOptional = repository.findById(id);
         if (proveedorOptional.isEmpty()) {
-            throw new ProveedorNotExistException("El proveedor que busca no existe");
+            throw new ProveedorNotFoundException(id);
         }
         Proveedor entidad = proveedorOptional.get();
         entidad.setActivo(true);
