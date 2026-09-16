@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ProveedorResponse } from '../../models/proveedor-response';
 
+import { ProveedorResponse } from '../../models/proveedor-response';
 import { ProveedorService } from '../../services/proveedor';
 import { ProveedorRequest } from '../../models/proveedor-request';
+
 @Component({
   selector: 'app-proveedor-modal',
-  imports: [FormsModule], 
+  imports: [FormsModule],
   standalone: true,
   templateUrl: './proveedor-modal.html',
   styleUrl: './proveedor-modal.scss',
@@ -59,7 +60,7 @@ export class ProveedorModal {
       this.actualizar(request);
     }
   }
-  
+
   private crear(request: ProveedorRequest): void {
     this.proveedorService.guardar(request).subscribe({
       next: () => {

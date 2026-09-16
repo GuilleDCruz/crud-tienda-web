@@ -12,12 +12,8 @@
 
   <!-- Barra de búsqueda -->
   <div class="search-container">
-    <input 
-      type="text" 
-      placeholder="Buscar producto por nombre..."
-      [(ngModel)]="nombreBusqueda"
-      (input)="buscarProductos()"
-    />
+    <input type="text" placeholder="Buscar producto por nombre..." [(ngModel)]="nombreBusqueda"
+      (input)="buscarProductos()" />
     <button type="button" class="btn btn-secondary" (click)="listarProductos()">
       Mostrar todos
     </button>
@@ -25,107 +21,98 @@
 
   <!-- Mensaje de carga -->
   @if (cargando()) {
-    <div class="message">
-      Cargando productos...
-    </div>
+  <div class="message">
+    Cargando productos...
+  </div>
   }
 
   <!-- Mensaje de error -->
   @if (mensajeError()) {
-    <div class="error-message">
-      {{ mensajeError() }}
-    </div>
+  <div class="error-message">
+    {{ mensajeError() }}
+  </div>
   }
 
   <!-- Tabla -->
   @if (!cargando() && productos().length > 0) {
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Categoría</th>
-            <th>Marca</th>
-            <th>Proveedor</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (producto of productos(); track producto.id) {
-            <tr>
-              <td>{{ producto.id }}</td>
-              <td>{{ producto.nombre }}</td>
-              <td>{{ producto.descripcion || '-' }}</td>
-              <td>${{ producto.precio | number:'1.2-2' }}</td>
-              <td>{{ producto.stock }}</td>
-              <td>{{ producto.categoriaNombre || '-' }}</td>
-              <td>{{ producto.marcaNombre || '-' }}</td>
-              <td>{{ producto.proveedorNombre || '-' }}</td>
-              <td>
-                @if (producto.activo) {
-                  <span class="status active">Activo</span>
-                } @else {
-                  <span class="status inactive">Inactivo</span>
-                }
-              </td>
-              <td class="actions">
-                <button type="button" class="btn btn-edit" (click)="editarProducto(producto.id)">
-                  Editar
-                </button>
-                @if (producto.activo) {
-                  <button type="button" class="btn btn-delete" (click)="abrirConfirmacion(producto)">
-                    Desactivar
-                  </button>
-                } @else {
-                  <button type="button" class="btn btn-success" (click)="abrirConfirmacion(producto)">
-                    Activar
-                  </button>
-                }
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Categoría</th>
+          <th>Marca</th>
+          <th>Proveedor</th>
+          <th>Tipo de producto</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (producto of productos(); track producto.id) {
+        <tr>
+          <td>{{ producto.id }}</td>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.descripcion || '-' }}</td>
+          <td>${{ producto.precio | number:'1.2-2' }}</td>
+          <td>{{ producto.stock }}</td>
+          <td>{{ producto.categoriaNombre || '-' }}</td>
+          <td>{{ producto.marcaNombre || '-' }}</td>
+          <td>{{ producto.proveedorNombre || '-' }}</td>
+          <td>{{ producto.tipoDeProductoNombre || '-' }}</td>
+          <td>
+            @if (producto.activo) {
+            <span class="status active">Activo</span>
+            } @else {
+            <span class="status inactive">Inactivo</span>
+            }
+          </td>
+          <td class="actions">
+            <button type="button" class="btn btn-edit" (click)="editarProducto(producto.id)">
+              Editar
+            </button>
+            @if (producto.activo) {
+            <button type="button" class="btn btn-delete" (click)="abrirConfirmacion(producto)">
+              Desactivar
+            </button>
+            } @else {
+            <button type="button" class="btn btn-success" (click)="abrirConfirmacion(producto)">
+              Activar
+            </button>
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
   }
 
   <!-- Sin resultados -->
   @if (!cargando() && productos().length === 0 && !mensajeError()) {
-    <div class="message">
-      No hay productos para mostrar.
-    </div>
+  <div class="message">
+    No hay productos para mostrar.
+  </div>
   }
 
   <!-- Modal crear / editar -->
   @if (modoModal() !== null) {
-    <app-producto-modal 
-      [modo]="modoModal()!" 
-      [producto]="productoSeleccionado()"
-      [categorias]="categorias()"
-      [marcas]="marcas()"
-      [proveedores]="proveedores()"
-      (cerrar)="cerrarModal()"
-      (productoGuardado)="productoGuardado()"
-    >
-    </app-producto-modal>
+  <app-producto-modal [modo]="modoModal()!" [producto]="productoSeleccionado()" [categorias]="categorias()"
+    [marcas]="marcas()" [proveedores]="proveedores()" [tiposDeProducto]="tiposDeProducto()" (cerrar)="cerrarModal()"
+    (productoGuardado)="productoGuardado()">
+  </app-producto-modal>
   }
 
   <!-- Modal confirmación activar / desactivar -->
   @if (mostrarConfirmacionModal()) {
-    <app-producto-confirm 
-      [producto]="productoSeleccionado()" 
-      [accion]="accionConfirmacion()!"
-      [tituloDialogo]="accionConfirmacion() === 'desactivar' ? 'Desactivar producto' : 'Activar producto'"
-      [mensajeDialogo]="accionConfirmacion() === 'desactivar' ? '¿Estás seguro de que deseas desactivar este producto?' : '¿Estás seguro de que deseas activar este producto?'"
-      [tipoDialogo]="'confirmacion'"
-      (cerrar)="cerrarConfirmacion()" 
-      (accionRealizada)="accionRealizada()"
-    >
-    </app-producto-confirm>
+  <app-producto-confirm [producto]="productoSeleccionado()" [accion]="accionConfirmacion()!"
+    [tituloDialogo]="accionConfirmacion() === 'desactivar' ? 'Desactivar producto' : 'Activar producto'"
+    [mensajeDialogo]="accionConfirmacion() === 'desactivar' ? '¿Estás seguro de que deseas desactivar este producto?' : '¿Estás seguro de que deseas activar este producto?'"
+    [tipoDialogo]="'confirmacion'" (cerrar)="cerrarConfirmacion()" (accionRealizada)="accionRealizada()">
+  </app-producto-confirm>
   }
 </div>

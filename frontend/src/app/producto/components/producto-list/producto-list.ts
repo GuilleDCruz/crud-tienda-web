@@ -10,6 +10,8 @@ import { MarcaService } from '../../../marca/services/marca';
 import { MarcaResponse } from '../../../marca/models/marca-response';
 import { ProveedorService } from '../../../proveedor/services/proveedor';
 import { ProveedorResponse } from '../../../proveedor/models/proveedor-response';
+import { TipoProductoService } from '../../../tipo-producto/services/tipo-producto';
+import { TipoProductoResponse } from '../../../tipo-producto/models/tipo-producto-response';
 import { ProductoModal } from '../producto-modal/producto-modal';
 import { ProductoConfirm } from '../producto-confirm/producto-confirm';
 
@@ -19,6 +21,7 @@ import { ProductoConfirm } from '../producto-confirm/producto-confirm';
   imports: [CommonModule, FormsModule, DecimalPipe, ProductoModal, ProductoConfirm],
   templateUrl: './producto-list.html'
 })
+
 export class ProductoList implements OnInit {
   productos = signal<ProductoResponse[]>([]);
   cargando = signal(false);
@@ -28,6 +31,7 @@ export class ProductoList implements OnInit {
   categorias = signal<CategoriaResponse[]>([]);
   marcas = signal<MarcaResponse[]>([]);
   proveedores = signal<ProveedorResponse[]>([]);
+  tiposDeProducto = signal<TipoProductoResponse[]>([]);
 
   modoModal = signal<'crear' | 'editar' | null>(null);
   productoSeleccionado = signal<ProductoResponse | null>(null);
@@ -38,8 +42,9 @@ export class ProductoList implements OnInit {
     private productoServicio: ProductoService,
     private categoriaServicio: CategoriaService,
     private marcaServicio: MarcaService,
-    private proveedorServicio: ProveedorService
-  ) {}
+    private proveedorServicio: ProveedorService,
+    private tipoDeProductoServicio: TipoProductoService
+  ) { }
 
   ngOnInit(): void {
     this.listarProductos();
@@ -50,12 +55,14 @@ export class ProductoList implements OnInit {
     forkJoin({
       categorias: this.categoriaServicio.listar(),
       marcas: this.marcaServicio.listar(),
-      proveedores: this.proveedorServicio.listar()
+      proveedores: this.proveedorServicio.listar(),
+      tiposProducto: this.tipoDeProductoServicio.listar()
     }).subscribe({
       next: (res) => {
         this.categorias.set(res.categorias);
         this.marcas.set(res.marcas);
         this.proveedores.set(res.proveedores);
+        this.tiposDeProducto.set(res.tiposProducto);
       },
       error: (error) => {
         console.error('Error cargando datos de referencia:', error);

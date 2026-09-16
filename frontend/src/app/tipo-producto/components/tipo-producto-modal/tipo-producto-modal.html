@@ -1,0 +1,56 @@
+<div class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>
+                @if (modo === 'crear') {
+                Agregar tipo de producto
+                } @else {
+                Editar tipo de producto
+                }
+            </h2>
+            <button type="button" class="btn-close" (click)="cancelar()">
+                ×
+            </button>
+        </div>
+
+        <div class="modal-body">
+            @if (mensajeError()) {
+            <div class="error-message">
+                {{ mensajeError() }}
+            </div>
+            }
+            <div class="form-group">
+                <label for="nombre">
+                    Nombre
+                </label>
+                <input id="nombre" type="text" [(ngModel)]="nombre"
+                    placeholder="Ingrese el nombre del tipo de producto">
+            </div>
+            <div class="form-group">
+
+                <label for="descripcion">
+                    Descripción
+                </label>
+                <textarea id="descripcion" [(ngModel)]="descripcion"
+                    placeholder="Ingrese la descripción del tipo de producto">
+        </textarea>
+            </div>
+        </div>
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cancelar()" [disabled]="cargando()">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-primary" (click)="guardar()" [disabled]="cargando()">
+                @if (cargando()) {
+                Guardando...
+                } @else if (modo === 'crear') {
+                Crear
+                } @else {
+                Guardar cambios
+                }
+            </button>
+        </div>
+    </div>
+</div>

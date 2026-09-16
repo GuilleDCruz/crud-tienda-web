@@ -3,6 +3,7 @@ import { CategoriaList } from './categoria/components/categoria-list/categoria-l
 import { ProveedorList } from './proveedor/components/proveedor-list/proveedor-list';
 import { MarcaList } from './marca/components/marca-list/marca-list';
 import { ProductoList } from './producto/components/producto-list/producto-list';
+import { TipoProductoList } from './tipo-producto/components/tipo-producto-list/tipo-producto-list';
 
 export const routes: Routes = [
   {
@@ -25,5 +26,9 @@ export const routes: Routes = [
   {
     path: 'producto',
     component: ProductoList
+  },
+  {
+    path: 'tipo-producto',
+    component: TipoProductoList
   }
 ];

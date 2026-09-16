@@ -6,4 +6,5 @@ export interface ProductoRequest {
     categoriaId: number;
     marcaId: number;
     proveedorId: number;
+    tipoDeProductoId: number;
 }

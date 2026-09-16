@@ -7,6 +7,7 @@ import { ProductoRequest } from '../../models/producto-request';
 import { CategoriaResponse } from '../../../categoria/models/categoria-response';
 import { MarcaResponse } from '../../../marca/models/marca-response';
 import { ProveedorResponse } from '../../../proveedor/models/proveedor-response';
+import { TipoProductoResponse } from '../../../tipo-producto/models/tipo-producto-response';
 
 @Component({
   selector: 'app-producto-modal',
@@ -31,6 +32,9 @@ export class ProductoModal implements OnInit {
   @Input()
   proveedores: ProveedorResponse[] = [];
 
+  @Input()
+  tiposDeProducto: TipoProductoResponse[] = [];
+
   @Output()
   cerrar = new EventEmitter<void>();
 
@@ -44,13 +48,14 @@ export class ProductoModal implements OnInit {
   categoriaId: number | null = null;
   marcaId: number | null = null;
   proveedorId: number | null = null;
+  tipoDeProductoId: number | null = null;
   activo: boolean = true;
 
   cargandoGuardado = signal(false);
   mensajeError = signal('');
   mensajeConfirmacion = signal('');
 
-  constructor(private productoServicio: ProductoService) {}
+  constructor(private productoServicio: ProductoService) { }
 
   ngOnInit(): void {
     if (this.modo === 'editar' && this.producto) {
@@ -61,6 +66,7 @@ export class ProductoModal implements OnInit {
       this.categoriaId = this.producto.categoriaId;
       this.marcaId = this.producto.marcaId;
       this.proveedorId = this.producto.proveedorId;
+      this.tipoDeProductoId = this.producto.tipoDeProductoId;
       this.activo = this.producto.activo;
     } else {
       this.resetFormulario();
@@ -75,6 +81,7 @@ export class ProductoModal implements OnInit {
     this.categoriaId = this.categorias.length > 0 ? this.categorias[0].id : null;
     this.marcaId = this.marcas.length > 0 ? this.marcas[0].id : null;
     this.proveedorId = this.proveedores.length > 0 ? this.proveedores[0].id : null;
+    this.tipoDeProductoId = this.tiposDeProducto.length > 0 ? this.tiposDeProducto[0].id : null;
     this.activo = true;
     this.mensajeError.set('');
     this.mensajeConfirmacion.set('');
@@ -111,6 +118,10 @@ export class ProductoModal implements OnInit {
       this.mensajeError.set('Debe seleccionar un proveedor.');
       return;
     }
+    if (!this.tipoDeProductoId) {
+      this.mensajeError.set('Debe seleccionar un tipo de producto.');
+      return;
+    }
 
     const request: ProductoRequest = {
       nombre: this.nombre.trim(),
@@ -119,7 +130,8 @@ export class ProductoModal implements OnInit {
       stock: Number(this.stock),
       categoriaId: Number(this.categoriaId),
       marcaId: Number(this.marcaId),
-      proveedorId: Number(this.proveedorId)
+      proveedorId: Number(this.proveedorId),
+      tipoDeProductoId: Number(this.tipoDeProductoId)
     };
 
     this.cargandoGuardado.set(true);

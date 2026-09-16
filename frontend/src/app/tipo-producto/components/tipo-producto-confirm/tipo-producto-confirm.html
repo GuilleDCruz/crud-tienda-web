@@ -1,0 +1,64 @@
+<div class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>
+                @if(accion === 'desactivar'){
+                Desactivar tipo de producto
+                } @else {
+                Activar tipo de producto
+                }
+            </h2>
+            <button type="button" class="btn-close" (click)="cancelar()" [disabled]="cargando()">
+                ×
+            </button>
+        </div>
+
+        <div class="modal-body">
+            @if (accion === 'desactivar') {
+            <p>
+                ¿Estás seguro de que deseas desactivar el tipo de producto
+                <strong>{{ tipoProducto?.nombre }}</strong>?
+            </p>
+            <p class="warning">
+                El tipo de producto dejará de estar activo.
+            </p>
+            } @else {
+            <p>
+                ¿Estás seguro de que deseas activar el tipo de producto
+                <strong>{{ tipoProducto?.nombre }}</strong>?
+            </p>
+            <p class="success">
+                El tipo de producto volverá a estar activo.
+            </p>
+            }
+            @if (mensajeError()) {
+            <div class="error-message">
+                {{ mensajeError() }}
+            </div>
+            }
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cancelar()" [disabled]="cargando()">
+                Cancelar
+            </button>
+            @if (accion === 'desactivar') {
+            <button type="button" class="btn btn-danger" (click)="confirmar()" [disabled]="cargando()">
+                @if (cargando()) {
+                Desactivando...
+                } @else {
+                Desactivar
+                }
+            </button>
+            } @else {
+            <button type="button" class="btn btn-success" (click)="confirmar()" [disabled]="cargando()">
+                @if (cargando()) {
+                Activando...
+                } @else {
+                Activar
+                }
+            </button>
+            }
+        </div>
+    </div>
+</div>

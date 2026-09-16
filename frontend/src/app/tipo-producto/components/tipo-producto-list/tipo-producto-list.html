@@ -1,0 +1,106 @@
+<div class="crud-container">
+
+    <!--Encabezado -->
+    <div class="header">
+        <div>
+            <h1>Tipo producto</h1>
+            <p>Administración de tipos de producto</p>
+        </div>
+
+        <button class="btn btn-primary" (click)="abrirCrear()">
+            + Agregar tipo de producto
+        </button>
+    </div>
+
+    <!--Barra de búsqueda -->
+    <div class="search-container">
+        <input type="text" [(ngModel)]="nombreBusqueda" (input)="buscarPorNombre()"
+            placeholder="Buscar tipo de producto...">
+        <button class="btn btn-secondary" (click)="limpiarBusqueda()">Mostrar todos</button>
+    </div>
+
+    <!--Mensaje de carga -->
+    @if (cargando()) {
+    <div class="message">
+        Cargando tipos de producto...
+    </div>
+    }
+
+    <!--Mensaje de error y sin resultados -->
+    @if (mensajeError()) {
+    <div class="error-message">
+        {{ mensajeError() }}
+    </div>
+    }
+
+    <!-- Tabla -->
+    @if (!cargando() && tiposProducto().length > 0) {
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (tipoProducto of tiposProducto(); track tipoProducto.id) {
+                <tr>
+                    <td>{{ tipoProducto.id }}</td>
+                    <td>{{ tipoProducto.nombre }}</td>
+                    <td>{{ tipoProducto.descripcion }}</td>
+                    <td>
+                        @if (tipoProducto.activo) {
+                        <span class="status active">
+                            Activa
+                        </span>
+                        } @else {
+                        <span class="status inactive">
+                            Inactiva
+                        </span>
+                        }
+                    </td>
+                    <td class="actions">
+                        <button class="btn btn-edit" (click)="editarTipoProducto(tipoProducto.id)">Editar</button>
+                        @if (tipoProducto.activo) {
+                        <button class="btn btn-delete" (click)="abrirConfirmacion(tipoProducto)">
+                            Desactivar
+                        </button>
+                        } @else {
+                        <button class="btn btn-success" (click)="abrirConfirmacion(tipoProducto)">
+                            Activar
+                        </button>
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+
+    <!-- Sin resultados -->
+    @if (!cargando() && tiposProducto().length === 0 && !mensajeError()) {
+    <div class="message">
+        No hay tipos de producto para mostrar.
+    </div>
+    }
+
+    <!-- Modal crear / editar -->
+    @if (modoModal() !== null) {
+    <app-tipo-producto-modal [modo]="modoModal()!" [tipoProducto]="tipoProductoSeleccionado()" (cerrar)="cerrarModal()"
+        (tipoProductoCreado)="tipoProductoCreado()" (tipoProductoGuardado)="tipoProductoGuardado()">
+    </app-tipo-producto-modal>
+    }
+
+    <!-- Confirmación activar / desactivar -->
+    @if (mostrarConfirmacion()) {
+    <app-tipo-producto-confirm [tipoProducto]="tipoProductoSeleccionado()" [accion]="accionConfirmacion()!"
+        (cerrar)="cerrarConfirmacion()" (accionRealizada)="accionRealizada()">
+    </app-tipo-producto-confirm>
+    }
+
+</div>

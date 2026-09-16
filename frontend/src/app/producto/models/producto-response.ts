@@ -5,7 +5,7 @@ export interface ProductoResponse {
     precio: number;
     stock: number;
     activo: boolean;
-    
+
     categoriaId: number;
     categoriaNombre: string;
 
@@ -14,6 +14,9 @@ export interface ProductoResponse {
 
     proveedorId: number;
     proveedorNombre: string;
+
+    tipoDeProductoId: number;
+    tipoDeProductoNombre: string;
 
     createdAt: string;
     updatedAt: string;
