@@ -1,0 +1,130 @@
+<div class="crud-container">
+
+    <!-- Encabezado -->
+    <div class="header">
+        <div>
+            <h1>Sucursales</h1>
+            <p>Administración de sucursales</p>
+        </div>
+
+        <button class="btn btn-primary" (click)="abrirCrear()">
+            + Agregar sucursal
+        </button>
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div class="search-container">
+        <input type="text" [(ngModel)]="nombreBusqueda" (input)="buscarSucursal()" placeholder="Buscar sucursal...">
+        <button class="btn btn-secondary" (click)="listarSucursales()">
+            Mostrar todas
+        </button>
+    </div>
+
+    <!-- Mensaje de carga -->
+    @if (cargando()) {
+    <div class="message">
+        Cargando sucursales...
+    </div>
+    }
+
+    <!-- Mensaje de error / sin resultados -->
+    @if (mensajeError()) {
+    <div class="error-message">
+        {{ mensajeError() }}
+    </div>
+    }
+
+    <!-- Tabla -->
+    @if (!cargando() && sucursales().length > 0) {
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Codigo</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (sucursal of sucursales(); track sucursal.id) {
+                <tr>
+                    <td>
+                        {{ sucursal.id }}
+                    </td>
+
+                    <td>
+                        {{ sucursal.nombre }}
+                    </td>
+
+                    <td>
+                        {{ sucursal.codigo }}
+                    </td>
+
+                    <td>
+                        {{ sucursal.direccion }}
+                    </td>
+
+                    <td>
+                        {{ sucursal.telefono }}
+                    </td>
+
+                    <td>
+                        @if (sucursal.activo) {
+                        <span class="status active">
+                            Activa
+                        </span>
+                        } @else {
+                        <span class="status inactive">
+                            Inactiva
+                        </span>
+                        }
+                    </td>
+
+                    <td class="actions">
+                        <button class="btn btn-edit" (click)="editarSucursal(sucursal.id)">
+                            Editar
+                        </button>
+
+                        @if (sucursal.activo) {
+                        <button class="btn btn-delete" (click)="abrirConfirmacion(sucursal)">
+                            Desactivar
+                        </button>
+                        } @else {
+                        <button class="btn btn-success" (click)="abrirConfirmacion(sucursal)">
+                            Activar
+                        </button>
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+
+    <!-- Sin resultados -->
+    @if (!cargando() && sucursales().length === 0 && !mensajeError()) {
+    <div class="message">
+        No hay sucursales para mostrar.
+    </div>
+    }
+
+    <!-- Modal crear / editar -->
+    @if (modoModal() !== null) {
+    <app-sucursal-modal [modo]="modoModal()!" [sucursal]="sucursalSeleccionado()" (cerrar)="cerrarModal()"
+        (sucursalGuardada)="sucursalGuardada()">
+    </app-sucursal-modal>
+    }
+
+    <!-- Confirmación activar / desactivar -->
+    @if (mostrarConfirmacion()) {
+    <app-sucursal-confirm [sucursal]="sucursalSeleccionado()" [accion]="accionConfirmacion()!"
+        (cerrar)="cerrarConfirmacion()" (accionRealizada)="accionRealizada()">
+    </app-sucursal-confirm>
+    }
+</div>

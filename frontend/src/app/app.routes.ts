@@ -4,6 +4,7 @@ import { ProveedorList } from './proveedor/components/proveedor-list/proveedor-l
 import { MarcaList } from './marca/components/marca-list/marca-list';
 import { ProductoList } from './producto/components/producto-list/producto-list';
 import { TipoProductoList } from './tipo-producto/components/tipo-producto-list/tipo-producto-list';
+import { SucursalList } from './sucursal/components/sucursal-list/sucursal-list';
 
 export const routes: Routes = [
   {
@@ -30,5 +31,9 @@ export const routes: Routes = [
   {
     path: 'tipo-producto',
     component: TipoProductoList
+  },
+  {
+    path: 'sucursal',
+    component: SucursalList
   }
 ];

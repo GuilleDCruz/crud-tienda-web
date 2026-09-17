@@ -1,0 +1,62 @@
+<div class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>
+                @if(modo === 'crear'){
+                Agregar Sucursal
+                }@else{
+                Editar Sucursal
+                }
+            </h2>
+            <button type="button" class="modal-close" (click)="cancelar()">
+                ×
+            </button>
+        </div>
+
+        <div class="modal-body">
+            @if (mensajeError()) {
+            <div class="error-message">
+                {{ mensajeError() }}
+            </div>
+            }
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" type="text" [(ngModel)]="nombre" placeholder="Ingrese el nombre de la sucursal">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input id="direccion" type="text" [(ngModel)]="direccion"
+                    placeholder="Ingrese la dirección de la sucursal">
+            </div>
+            <div class="form-group">
+                <label for="codigo">Código</label>
+                <input id="codigo" type="text" [(ngModel)]="codigo" placeholder="Ingrese el codigo de la sucursal">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input id="telefono" type="text" [(ngModel)]="telefono"
+                    placeholder="Ingrese el telefono de la sucursal">
+            </div>
+            <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input id="email" type="email" [(ngModel)]="email"
+                    placeholder="Ingrese el correo electronico de la sucursal">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cancelar()" [disabled]="cargando()">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" (click)="guardar()" [disabled]="cargando()">
+                    @if (cargando()) {
+                    Guardando...
+                    } @else if (modo === 'crear') {
+                    Crear
+                    } @else {
+                    Guardar cambios
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

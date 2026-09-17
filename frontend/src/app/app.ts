@@ -21,6 +21,7 @@ export class App {
     { label: 'Marcas', route: '/marca' },
     { label: 'Proveedores', route: '/proveedor' },
     { label: 'Productos', route: '/producto' },
-    { label: 'Tipo de Productos', route: '/tipo-producto' }
+    { label: 'Tipo de Productos', route: '/tipo-producto' },
+    { label: 'Sucursales', route: '/sucursal' }
   ];
 }
